@@ -8,12 +8,6 @@ package passengers;
  */
 public class Passengers {
 	
-	/**  Constant for representing direction. */
-	private static final int UP = 1;
-	
-	/** The Constant DOWN. */
-	private static final int DOWN = -1;
-	
 	/**  ID represents the NEXT available id for the passenger group. */
 	private static int ID=0;
 
@@ -70,11 +64,125 @@ public class Passengers {
 	// TODO: Write the constructor for this class
 	//       Remember to appropriately adjust the onFloor and destFloor to account  
 	//       to convert from American to European numbering...
-		
+		this.time = time;
+		this.numPass = numPass;
+		onFloor = on - 1;
+		destFloor = dest - 1;
+		this.polite = polite;
+		this.waitTime = waitTime;
 	}
 	
-	
 	// TODO: Write any required getters/setters for this class
+	
+	/**  Constant for representing direction. */
+	private static final int UP = 1;
+	
+	/** The Constant DOWN. */
+	private static final int DOWN = -1;
+	
+	/**
+	 * @return the polite
+	 */
+	public boolean isPolite() {
+		return polite;
+	}
+
+
+	/**
+	 * @param polite the polite to set
+	 */
+	public void setPolite(boolean polite) {
+		this.polite = polite;
+	}
+
+
+	/**
+	 * @return the timeWillGiveUp
+	 */
+	public int getTimeWillGiveUp() {
+		return timeWillGiveUp;
+	}
+
+
+	/**
+	 * @param timeWillGiveUp the timeWillGiveUp to set
+	 */
+	public void setTimeWillGiveUp(int timeWillGiveUp) {
+		this.timeWillGiveUp = timeWillGiveUp;
+	}
+
+
+	/**
+	 * @return the direction
+	 */
+	public int getDirection() {
+		return direction;
+	}
+
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(int time) {
+		this.time = time;
+	}
+
+
+	/**
+	 * @param numPass the numPass to set
+	 */
+	public void setNumPass(int numPass) {
+		this.numPass = numPass;
+	}
+
+
+	/**
+	 * @param onFloor the onFloor to set
+	 */
+	public void setOnFloor(int onFloor) {
+		this.onFloor = onFloor;
+	}
+
+
+	/**
+	 * @param destFloor the destFloor to set
+	 */
+	public void setDestFloor(int destFloor) {
+		this.destFloor = destFloor;
+	}
+
+
+	/**
+	 * @param waitTime the waitTime to set
+	 */
+	public void setWaitTime(int waitTime) {
+		this.waitTime = waitTime;
+	}
+
+
+	/**
+	 * @param boardTime the boardTime to set
+	 */
+	public void setBoardTime(int boardTime) {
+		this.boardTime = boardTime;
+	}
+
+
+	/**
+	 * @param timeArrived the timeArrived to set
+	 */
+	public void setTimeArrived(int timeArrived) {
+		this.timeArrived = timeArrived;
+	}
+
 
 	/**
 	 * Gets the id.
@@ -82,7 +190,7 @@ public class Passengers {
 	 * @return the id
 	 */
 	public int getId() {
-		return -1;
+		return id;
 	}
 
 	/**
@@ -91,7 +199,7 @@ public class Passengers {
 	 * @return the time
 	 */
 	public int getTime() {
-		return -1;
+		return time;
 	}
 
 	/**
@@ -100,7 +208,7 @@ public class Passengers {
 	 * @return the num pass
 	 */
 	public int getNumPass() {
-		return -1;
+		return numPass;
 	}
 
 	/**
@@ -109,7 +217,7 @@ public class Passengers {
 	 * @return the on floor
 	 */
 	public int getOnFloor() {
-		return -1;
+		return onFloor;
 	}
 
 	/**
@@ -118,7 +226,7 @@ public class Passengers {
 	 * @return the dest floor
 	 */
 	public int getDestFloor() {
-		return -1;
+		return destFloor;
 	}
 
 	/**
@@ -127,7 +235,7 @@ public class Passengers {
 	 * @return the wait time
 	 */
 	public int getWaitTime() {
-		return -1;
+		return waitTime;
 	}
 
 	/**
@@ -136,7 +244,7 @@ public class Passengers {
 	 * @return the board time
 	 */
 	public int getBoardTime() {
-		return -1;
+		return boardTime;
 	}
 
 	/**
@@ -145,7 +253,7 @@ public class Passengers {
 	 * @return the time arrived
 	 */
 	public int getTimeArrived() {
-		return -1;
+		return timeArrived;
 	}
 
 	

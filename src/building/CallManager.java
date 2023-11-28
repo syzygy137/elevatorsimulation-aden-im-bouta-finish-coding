@@ -52,6 +52,10 @@ public class CallManager {
 		//TODO: Initialize any added fields here
 	}
 	
+	public boolean callPending() {
+		return (numUpCalls() + numDownCalls() > 0);
+	}
+	
 	/**
 	 * Update call status. This is an optional method that could be used to compute
 	 * the values of all up and down call fields statically once per tick (to be
@@ -61,6 +65,7 @@ public class CallManager {
 	 */
 	void updateCallStatus() {
 		//TODO: Write this method if you choose to implement it...
+		
 	}
 
 	/**
@@ -71,6 +76,14 @@ public class CallManager {
 	 */
 	Passengers prioritizePassengerCalls(int floor) {
 		//TODO: Write this method based upon prioritization from STOP...
+		if (numUpCalls() > numDownCalls()) {
+			
+		} else if (numUpCalls() > numDownCalls()) {
+			// choose highest downCallFloor
+		}
+		else {
+			//choose closest floor, if same prioritize lowest floor
+		}
 		return null;
 	}
 
@@ -82,5 +95,118 @@ public class CallManager {
 	//      5. Should the elevator change direction?
 	//
 	//      These are an example - you may find you don't need some of these, or you may need more...
+	
+	private int numUpCalls() {
+		int count = 0;
+		for (int i = 0; i < NUM_FLOORS; i++) {
+			if (upCalls[i]) {
+				count++;
+			}
+		}
+		if (count > 0) upCallPending = true;
+		return count;
+	}
+	private int numDownCalls() {
+		int count = 0;
+		for (int i = 0; i < NUM_FLOORS; i++) {
+			if (downCalls[i]) {
+				count++;
+			}
+		}
+		if (count > 0) downCallPending = true;
+		return count;
+	}
 
+	/**
+	 * @return the floors
+	 */
+	public Floor[] getFloors() {
+		return floors;
+	}
+
+	/**
+	 * @param floors the floors to set
+	 */
+	public void setFloors(Floor[] floors) {
+		this.floors = floors;
+	}
+
+	/**
+	 * @return the upCalls
+	 */
+	public boolean[] getUpCalls() {
+		return upCalls;
+	}
+
+	/**
+	 * @param upCalls the upCalls to set
+	 */
+	public void setUpCalls(boolean[] upCalls) {
+		this.upCalls = upCalls;
+	}
+
+	/**
+	 * @return the downCalls
+	 */
+	public boolean[] getDownCalls() {
+		return downCalls;
+	}
+
+	/**
+	 * @param downCalls the downCalls to set
+	 */
+	public void setDownCalls(boolean[] downCalls) {
+		this.downCalls = downCalls;
+	}
+
+	/**
+	 * @return the upCallPending
+	 */
+	public boolean isUpCallPending() {
+		return upCallPending;
+	}
+
+	/**
+	 * @param upCallPending the upCallPending to set
+	 */
+	public void setUpCallPending(boolean upCallPending) {
+		this.upCallPending = upCallPending;
+	}
+
+	/**
+	 * @return the downCallPending
+	 */
+	public boolean isDownCallPending() {
+		return downCallPending;
+	}
+
+	/**
+	 * @param downCallPending the downCallPending to set
+	 */
+	public void setDownCallPending(boolean downCallPending) {
+		this.downCallPending = downCallPending;
+	}
+
+	/**
+	 * @return the nUM_FLOORS
+	 */
+	public int getNUM_FLOORS() {
+		return NUM_FLOORS;
+	}
+
+	/**
+	 * @return the up
+	 */
+	public static int getUp() {
+		return UP;
+	}
+
+	/**
+	 * @return the down
+	 */
+	public static int getDown() {
+		return DOWN;
+	}
+
+	
 }
