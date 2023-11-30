@@ -89,6 +89,7 @@ public class ElevatorSimController {
 		building = new Building(NUM_FLOORS,logfile);
 		passQ = new GenericQueue<>(PASSENGERS_QSIZE);
 		//TODO: YOU still need to configure the elevator in the building here....
+		building.configElevator(numFloors, capacity, floorTicks, doorTicks, passPerTick);
 		initializePassengerData(testfile);	
 	}
 	
