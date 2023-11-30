@@ -69,22 +69,37 @@ public class CallManager {
 	}
 
 	/**
-	 * Prioritize passenger calls from STOP STATE
+	 * Prioritize passenger calls from STOP STATE.
+	 *
+	 *If floor has people on it, check if there is only a call in one direction, if so, go in that direction
+	 *If floor has people and calls in both directions, check which way has more calls in the direction above or below
+	 *the current floor. If there is no one on the current floor, then choose the direction that has more total calls, and either
+	 *go to the highest or lowest in that direction. If the amounts are the same, go to the lower one.
 	 *
 	 * @param floor the floor
 	 * @return the passengers
 	 */
 	Passengers prioritizePassengerCalls(int floor) {
 		//TODO: Write this method based upon prioritization from STOP...
-		if (numUpCalls() > numDownCalls()) {
-			
-		} else if (numUpCalls() > numDownCalls()) {
-			// choose highest downCallFloor
+		//if there are people on the floor
+		if (!floors[floor].isEmpty()) { 
+			if (onlyUpCalls(floor)) return floors[floor].peekUp(); 
+			else if (onlyDownCalls(floor)) return floors[floor].peekDown();
+			else {
+				if (numUpCallsAboveFloor(floor) >= numDownCallsBelowFloor(floor)) return floors[floor].peekUp();
+				else return floors[floor].peekDown();
+			}
 		}
-		else {
-			//choose closest floor, if same prioritize lowest floor
+		else { //there aren't people on the current floor
+			if (numUpCalls() > numDownCalls()) {
+				return findFirstFloor(true);
+			} else if (numUpCalls() < numDownCalls()) {
+				return findFirstFloor(false);
+			}
+			else {
+				return findFirstFloor(true);
+			}
 		}
-		return null;
 	}
 
 	//TODO: Write any additional methods here. Things that you might consider:
@@ -96,6 +111,37 @@ public class CallManager {
 	//
 	//      These are an example - you may find you don't need some of these, or you may need more...
 	
+	private boolean onlyUpCalls(int floor) {
+		return (floors[floor].peekUp() != null && floors[floor].peekDown() == null);
+	}
+	
+	private boolean onlyDownCalls(int floor) {
+		return (floors[floor].peekUp() == null && floors[floor].peekDown() != null);
+	}
+	
+	private int numUpCallsAboveFloor(int floor) {
+		int count = 0;
+		for (int i = floor; i < NUM_FLOORS; i++) {
+			if (upCalls[i]) {
+				count++;
+			}
+		}
+		if (count > 0) upCallPending = true;
+		return count;
+	}
+	
+	private int numDownCallsBelowFloor(int floor) {
+		int count = 0;
+		for (int i = floor; i >= 0; i--) {
+			if (downCalls[i]) {
+				count++;
+			}
+		}
+		if (count > 0) downCallPending = true;
+		return count;
+	}
+	
+	
 	private int numUpCalls() {
 		int count = 0;
 		for (int i = 0; i < NUM_FLOORS; i++) {
@@ -106,6 +152,7 @@ public class CallManager {
 		if (count > 0) upCallPending = true;
 		return count;
 	}
+	
 	private int numDownCalls() {
 		int count = 0;
 		for (int i = 0; i < NUM_FLOORS; i++) {
@@ -115,6 +162,20 @@ public class CallManager {
 		}
 		if (count > 0) downCallPending = true;
 		return count;
+	}
+	
+	private Passengers findFirstFloor(boolean goingUp) {
+		if (goingUp) {
+			for (int i = 0; i < NUM_FLOORS; i++) {
+				if (upCalls[i]) return floors[i].peekUp();
+			}
+		}
+		else {
+			for (int i = NUM_FLOORS-1; i >= 0; i--) {
+				if (downCalls[i]) return floors[i].peekDown();
+			}
+		}
+		return null;
 	}
 
 	/**
