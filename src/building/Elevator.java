@@ -198,6 +198,35 @@ public class Elevator {
 	int getCurrFloor() {
 		return currFloor;
 	}
+	
+	/**
+	 * Sets the direction
+	 *
+	 * @return void
+	 */
+	void setDirection(int direction) {
+		this.direction = direction;
+	}
+	
+	/**
+	 * Sets the floor to move to
+	 *
+	 * @return void
+	 */
+	void setMoveToFloor(int moveToFloor) {
+		this.moveToFloor = moveToFloor;
+	}
+	
+	/**
+	 * Sets the direction to go after reaching the floor
+	 *
+	 * @return void
+	 */
+	void setPostMoveToFloorDir(int postMoveToFloorDir) {
+		this.postMoveToFloorDir = moveToFloor;
+	}
+
+	
 
 	/**
 	 * Update curr state.
@@ -207,5 +236,10 @@ public class Elevator {
 	void updateCurrState(int nextState) {
 		prevState = currState;
 		currState = nextState;
+		if (currState == prevState) {
+			timeInState++;
+		} else {
+			timeInState = 1;
+		}
 	}
 }

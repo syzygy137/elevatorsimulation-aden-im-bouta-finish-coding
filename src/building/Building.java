@@ -119,10 +119,28 @@ public class Building {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}	
+	}
+	
 	
 	/** Implement the state methods here */
 	private int currStateStop(int time) {
+		if (callMgr.callPending()) {
+			int currFloor = elevator.getCurrFloor();
+			Passengers passengers = callMgr.prioritizePassengerCalls(currFloor);
+			int destFloor = passengers.getOnFloor();
+			if (destFloor == currFloor) {
+				elevator.setDirection(passengers.getDirection());
+				return Elevator.OPENDR;
+			}
+			if (destFloor > currFloor) {
+				elevator.setDirection(1);
+			} else {
+				elevator.setDirection(-1);
+			}
+			elevator.setMoveToFloor(destFloor);
+			elevator.setPostMoveToFloorDir(passengers.getDirection());
+			return Elevator.MVTOFLR;
+		}
 		return Elevator.STOP;
 	}
 
