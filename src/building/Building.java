@@ -88,6 +88,10 @@ public class Building {
 		//TODO: if you defined new fields, make sure to initialize them here
 		
 	}
+	
+	public void configElevator(int numFloors,int capacity, int floorTicks, int doorTicks, int passPerTick) {
+		elevator = new Elevator(numFloors, capacity, floorTicks, doorTicks, passPerTick);
+	}
 		
 	// TODO: Place all of your code HERE - state methods and helpers...
 	
