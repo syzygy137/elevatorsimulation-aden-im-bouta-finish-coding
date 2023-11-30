@@ -32,7 +32,33 @@ public class Floor {
 	// You probably will only be accessing one queue at any
 	// given time based upon direction - you could choose to 
 	// account for this in your methods.
+	public void addPassengers(Passengers passengers) {
+		if (passengers.getDestFloor() > passengers.getOnFloor()) {
+			up.add(passengers);
+		} else {
+			down.add(passengers);
+		}
+	}
 	
+	public Passengers peekUp() {
+		return up.peek();
+	}
+	
+	public Passengers peekDown() {
+		return down.peek();
+	}
+	
+	public Passengers removeUp() {
+		return up.remove();
+	}
+	
+	public Passengers removeDown() {
+		return down.remove();
+	}
+	
+	public boolean isEmpty() {
+		return up.peek() == null && down.peek() == null;
+	}
 	/**
 	 * Queue string. This method provides visibility into the queue
 	 * contents as a string. What exactly you would want to visualize 

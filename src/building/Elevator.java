@@ -90,7 +90,7 @@ public class Elevator {
 	                            // stopping.
 	
 	/** The post move to floor dir. */
-                            	private int postMoveToFloorDir; // This is the direction that the elevator will travel AFTER reaching
+    private int postMoveToFloorDir; // This is the direction that the elevator will travel AFTER reaching
 	                                // the moveToFloor in MVTOFLR state.
 
 	/**
@@ -113,8 +113,10 @@ public class Elevator {
 		for (int i = 0; i < numFloors; i++) 
 			passByFloor[i] = new ArrayList<Passengers>(); 
 
-		//TODO: Finish this constructor, adding configuration initialiation and
+		//TODO: Finish this constructor, adding configuration initialization and
 		//      initialization of any other private fields, etc.
+		
+		passengers = 0;
 	}
 
 	
@@ -131,7 +133,7 @@ public class Elevator {
 	 * @return the capacity
 	 */
 	int getCapacity() {
-		return -1;
+		return capacity;
 	}
 
 	/**
@@ -140,7 +142,7 @@ public class Elevator {
 	 * @return the ticks per floor
 	 */
 	int getTicksPerFloor() {
-		return -1;
+		return ticksPerFloor;
 	}
 
 	/**
@@ -149,7 +151,7 @@ public class Elevator {
 	 * @return the ticks door open close
 	 */
 	int getTicksDoorOpenClose() {
-		return -1;
+		return ticksDoorOpenClose;
 	}
 
 	/**
@@ -158,7 +160,7 @@ public class Elevator {
 	 * @return the pass per tick
 	 */
 	int getPassPerTick() {
-		return -1;
+		return passPerTick;
 	}
 
 	/**
@@ -167,7 +169,7 @@ public class Elevator {
 	 * @return the curr state
 	 */
 	int getCurrState() {
-		return -1;
+		return currState;
 	}
 
 	/**
@@ -176,7 +178,7 @@ public class Elevator {
 	 * @return the prev state
 	 */
 	int getPrevState() {
-		return -1;
+		return prevState;
 	}
 
 	/**
@@ -185,7 +187,7 @@ public class Elevator {
 	 * @return the prev floor
 	 */
 	int getPrevFloor() {
-		return -1;
+		return prevFloor;
 	}
 
 	/**
@@ -194,7 +196,7 @@ public class Elevator {
 	 * @return the curr floor
 	 */
 	int getCurrFloor() {
-		return -1;
+		return currFloor;
 	}
 
 	/**
@@ -203,6 +205,7 @@ public class Elevator {
 	 * @param nextState the next state
 	 */
 	void updateCurrState(int nextState) {
-		
+		prevState = currState;
+		currState = nextState;
 	}
 }

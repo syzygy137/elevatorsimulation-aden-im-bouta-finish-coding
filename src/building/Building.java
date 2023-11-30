@@ -88,9 +88,14 @@ public class Building {
 		//TODO: if you defined new fields, make sure to initialize them here
 		
 	}
-	
+		
 	// TODO: Place all of your code HERE - state methods and helpers...
 	
+	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
+		for (Passengers passengers : passengerList) {
+			floors[passengers.getOnFloor()].addPassengers(passengers);
+		}
+	}
 	
 	// DO NOT CHANGE ANYTHING BELOW THIS LINE:
 	/**
@@ -114,31 +119,31 @@ public class Building {
 	
 	/** Implement the state methods here */
 	private int currStateStop(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 
 	private int currStateMvToFlr(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 	
 	private int currStateOpenDr(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 	
 	private int currStateOffLd(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 	
 	private int currStateBoard(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 	
 	private int currStateCloseDr(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 	
 	private int currStateMv1Flr(int time) {
-		return -1;
+		return Elevator.STOP;
 	}
 	
 	//TODO: Write this method 
