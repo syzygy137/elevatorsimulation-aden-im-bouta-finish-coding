@@ -1,7 +1,30 @@
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import building.Elevator;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight; 
 
 
 public class ElevatorSimulation extends Application {
@@ -23,7 +46,39 @@ public class ElevatorSimulation extends Application {
 	private final int BOARD = Elevator.BOARD;
 	private final int CLOSEDR = Elevator.CLOSEDR;
 	private final int MV1FLR = Elevator.MV1FLR;
-
+	
+	// My vars
+	private BorderPane main;
+	private HBox buttonBox;
+	private GridPane gp;
+	private final static Logger LOGGER = Logger.getLogger(ElevatorSimulation.class.getName());
+	private Timeline t;
+	private String defualtLogStyle = "";
+	private static final int MAX_X_CELLS = 20; // width/50
+	private static final int MAX_Y_CELLS = 13;// height/50
+	
+	// Signs and other elevator stuff
+	private StackPane elevatorPane;
+	private Polygon up, down, left, right;
+	private int elevatorX = 1, elevatorY = 1;
+	private Circle circle = new Circle(0, 0, 10);
+	private Text c = new Text(1050, 150, "C"), o = new Text(50, 50, "O");
+	private Line eLeft = new Line(50, -50, 50, 50);
+	private Line eRight = new Line(50, -50, 50, 50);
+	private Line eTop = new Line(-100, 0, 0, 0);
+	private Line eBottom = new Line(-100, 0, 0, 0);
+	private Text elevatorNum = new Text(00, 0, "0");
+	
+	// Building GUI stuff
+	private Line g0 = new Line(0, 0, 650, 0);
+	private Line g1 = new Line(0, 0, 650, 0);
+	private Line g2 = new Line(0, 0, 650, 0);
+	private Line g3 = new Line(0, 0, 650, 0);
+	private Line g4 = new Line(0, 0, 650, 0);
+	private Line g5 = new Line(0, 0, 650, 0);
+	private Line g6 = new Line(0, 0, 650, 0);
+	
+	
 	/**
 	 * Instantiates a new elevator simulation.
 	 */
@@ -48,7 +103,47 @@ public class ElevatorSimulation extends Application {
 
 		//TODO: Complete your GUI, including adding any helper methods.
 		//      Meet the 30 line limit...
+		main = new BorderPane();
+		buttonBox = new HBox();
+		Button run = new Button("Run");
+		Button step1 = new Button("Step");
+		Button step2 = new Button("Step: ");
+		TextField stepBox = new TextField("1");
+		Button logger = new Button("Logger");
+		logger.setOnAction(e -> controller.enableLogging());
+		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play();});
+		step1.setOnAction(e -> stepTick(1));
+		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
+        buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger);
+        main.setBottom(buttonBox);
+        
+        elevatorPane = new StackPane();
+        makeShapes();	
+		elevatorPane.getChildren().addAll(up, right, down, left, circle, o, c);
+		c.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+		o.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
 		
+        gp = new GridPane();
+        main.setCenter(gp);
+        setGridPaneConstraints();
+        gp.add(elevatorPane, elevatorX - 1, elevatorY);
+        gp.add(eLeft, elevatorX - 1, elevatorY);
+        gp.add(eRight, elevatorX + 1, elevatorY);
+        gp.add(eTop, elevatorX - 1, elevatorY - 1);
+        gp.add(eBottom, elevatorX - 1, elevatorY + 1);
+        gp.add(elevatorNum, elevatorX, elevatorY);
+        elevatorNum.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(g0, 2, 12);
+        gp.add(g1, 2, 10);
+        gp.add(g2, 2, 8);
+        gp.add(g3, 2, 6);
+        gp.add(g4, 2, 4);
+        gp.add(g5, 2, 2);
+        gp.add(g6, 2, 0);
+        
+        Scene scene = new Scene(main, 1000, 700);
+		primaryStage.setScene(scene);
+		initTimeline();
 	}
 	
 	/**
@@ -69,6 +164,112 @@ public class ElevatorSimulation extends Application {
 			}
 		}
 		Application.launch(args);
+	}
+	
+	private void stepTick(int numTicks) {
+		while (numTicks > 0) {
+			controller.stepSim();
+			numTicks--;
+		}
+	}
+	
+	private void initTimeline() {
+		//TODO: Code this method
+		t = new Timeline(new KeyFrame(Duration.millis(millisPerTick), e -> controller.stepSim()));
+		t.setCycleCount(Animation.INDEFINITE);
+	}
+	
+	public void endSimulation() {
+		t.pause();
+	}
+	
+	private void makeShapes() {
+		up = new Polygon();  //Up
+		up.getPoints().addAll(5.0,20.0,25.0,20.0,15.0,20-10*Math.pow(3,0.5));
+		up.setStroke(Color.RED);
+		up.setStrokeWidth(2);
+		up.setFill(Color.RED);
+		right = new Polygon();  // Right
+		right.getPoints().addAll(up.getPoints());
+		right.setRotate(90);
+		right.setStroke(Color.CYAN);
+		right.setStrokeWidth(2);
+		right.setFill(Color.CYAN);
+		down = new Polygon(); // Down
+		down.getPoints().addAll(up.getPoints());
+		down.setRotate(180);
+		down.setStroke(Color.PURPLE);
+		down.setStrokeWidth(2);
+		down.setFill(Color.PURPLE);
+		left = new Polygon();  //Left
+		left.getPoints().addAll(up.getPoints());
+		left.setRotate(270);
+		left.setStroke(Color.GREEN);
+		left.setStrokeWidth(2);
+		left.setFill(Color.GREEN);
+		up.setVisible(true);
+		right.setVisible(false);
+		down.setVisible(false);
+		left.setVisible(false);
+		circle.setFill(Color.RED);
+	}
+	
+	public void updateGUI(int currState, String currentDir, int elevatorY, int elevatorNum) {// only needs currentDir if MVTOFLR or MV1FLR
+		this.elevatorY = elevatorY;
+		this.elevatorNum.setText(Integer.toString(elevatorNum));
+		up.setVisible(false);
+		right.setVisible(false);
+		down.setVisible(false);
+		left.setVisible(false);
+		circle.setVisible(false);
+		c.setVisible(false);
+		o.setVisible(false);
+		
+		gp.getChildren().removeAll(elevatorPane, eLeft, eRight, eTop, eBottom, this.elevatorNum);
+		gp.add(elevatorPane, elevatorX - 1, elevatorY);
+        gp.add(eLeft, elevatorX - 1, elevatorY);
+        gp.add(eRight, elevatorX + 1, elevatorY);
+        gp.add(eTop, elevatorX - 1, elevatorY - 1);
+        gp.add(eBottom, elevatorX - 1, elevatorY + 1);
+        gp.add(this.elevatorNum, elevatorX, elevatorY);
+		
+		switch (currState) {
+		case (MVTOFLR):
+			if (currentDir.equals("up") || currentDir.equals("Up"))
+				up.setVisible(true);
+			if (currentDir.equals("down") || currentDir.equals("Down"))
+				down.setVisible(true);
+			break;
+		case (MV1FLR):
+			if (currentDir.equals("up") || currentDir.equals("Up"))
+				up.setVisible(true);
+			if (currentDir.equals("down") || currentDir.equals("Down"))
+				down.setVisible(true);
+			break;
+		case (OFFLD):
+			right.setVisible(true);
+			break;
+		case (BOARD):
+			left.setVisible(true);
+			break;
+		case (STOP):
+			circle.setVisible(true);
+			break;
+		case (OPENDR):
+			o.setVisible(true);
+			break;
+		case (CLOSEDR):
+			c.setVisible(true);
+			break;
+		}
+	}
+	
+	public void setGridPaneConstraints() {
+		for (int i = 0; i < MAX_X_CELLS; i ++) 
+			gp.getColumnConstraints().add(new ColumnConstraints(50));
+
+		for (int i = 0; i < MAX_Y_CELLS; i ++) 
+			gp.getRowConstraints().add(new RowConstraints(50));
 	}
 
 }
