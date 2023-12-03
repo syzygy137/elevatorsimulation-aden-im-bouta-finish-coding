@@ -33,7 +33,7 @@ public class Floor {
 	// given time based upon direction - you could choose to 
 	// account for this in your methods.
 	public void addPassengers(Passengers passengers) {
-		if (passengers.getDestFloor() > passengers.getOnFloor()) {
+		if (passengers.getDirection() == UP) {
 			up.add(passengers);
 		} else {
 			down.add(passengers);

@@ -70,6 +70,8 @@ public class Passengers {
 		destFloor = dest - 1;
 		this.polite = polite;
 		this.waitTime = waitTime;
+		if (destFloor > onFloor) direction = 1;
+		else direction = -1;
 	}
 	
 	// TODO: Write any required getters/setters for this class
