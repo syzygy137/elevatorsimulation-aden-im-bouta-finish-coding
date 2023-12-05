@@ -1,8 +1,5 @@
 package building;
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import passengers.Passengers;
 
@@ -118,6 +115,13 @@ public class Elevator {
 		
 		passengers = 0;
 	}
+                                	
+    boolean passengersToGetOff() {
+    	if (passByFloor[currFloor].isEmpty()) {
+    		return false;
+    	}
+    	return true;
+    }
 
 	
 	//TODO: Add Getter/Setters and any methods that you deem are required. Examples 
@@ -225,6 +229,16 @@ public class Elevator {
 	void setPostMoveToFloorDir(int postMoveToFloorDir) {
 		this.postMoveToFloorDir = moveToFloor;
 	}
+	
+	/**
+	 * Sets the prevfloor to the currfloor
+	 *
+	 * @return void
+	 */
+	void setPrevFloor() {
+		prevFloor = currFloor;
+	}
+	
 
 	
 

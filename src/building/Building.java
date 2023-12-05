@@ -3,7 +3,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,7 +10,6 @@ import java.util.logging.SimpleFormatter;
 
 import myfileio.MyFileIO;
 import passengers.Passengers;
-import genericqueue.GenericQueue;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -145,6 +143,7 @@ public class Building {
 	}
 
 	private int currStateMvToFlr(int time) {
+		
 		return Elevator.STOP;
 	}
 	
@@ -170,7 +169,7 @@ public class Building {
 	
 	//TODO: Write this method 
 	private boolean elevatorStateOrFloorChanged() {
-		return false;
+		return elevator.getPrevState() != elevator.getCurrState() || elevator.getPrevFloor() != elevator.getCurrFloor();
 	}
 	
 	/**
