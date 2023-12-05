@@ -139,6 +139,19 @@ public class Elevator {
 	int getCapacity() {
 		return capacity;
 	}
+	
+	/**
+	 * Gets the capacity.
+	 *
+	 * @return the capacity
+	 */
+	int getNumPassengers() {
+		int num = 0;
+		for (ArrayList<Passengers> passengerList : passByFloor) {
+			num += passengerList.size();
+		}
+		return num;
+	}
 
 	/**
 	 * Gets the ticks per floor.
@@ -213,6 +226,15 @@ public class Elevator {
 	}
 	
 	/**
+	 * Gets the direction
+	 *
+	 * @return void
+	 */
+	int setDirection() {
+		return direction;
+	}
+	
+	/**
 	 * Sets the floor to move to
 	 *
 	 * @return void
@@ -222,12 +244,30 @@ public class Elevator {
 	}
 	
 	/**
+	 * Gets the floor to move to
+	 *
+	 * @return int of the floor
+	 */
+	int getMoveToFloor() {
+		return moveToFloor;
+	}
+	
+	/**
 	 * Sets the direction to go after reaching the floor
 	 *
 	 * @return void
 	 */
 	void setPostMoveToFloorDir(int postMoveToFloorDir) {
 		this.postMoveToFloorDir = moveToFloor;
+	}
+	
+	/**
+	 * Sets the direction to go after reaching the floor
+	 *
+	 * @return int
+	 */
+	int getPostMoveToFloorDir() {
+		return postMoveToFloorDir;
 	}
 	
 	/**

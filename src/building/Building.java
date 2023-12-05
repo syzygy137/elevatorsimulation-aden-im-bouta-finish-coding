@@ -143,8 +143,11 @@ public class Building {
 	}
 
 	private int currStateMvToFlr(int time) {
-		
-		return Elevator.STOP;
+		if (elevator.getCurrFloor() == elevator.getMoveToFloor()) {
+			elevator.setDirection(elevator.getPostMoveToFloorDir());
+			return Elevator.STOP;
+		}
+		return Elevator.MVTOFLR;
 	}
 	
 	private int currStateOpenDr(int time) {
@@ -197,6 +200,17 @@ public class Building {
 		}
 
 	}
+	
+	/**
+	 * Gives GUI the elevator
+	 *
+	 * @param void
+	 */
+	public Elevator getElevator() {
+		return elevator;
+	}
+	
+	
 
 	/**
 	 * Process passenger data. Do NOT change this - it simply dumps the 
