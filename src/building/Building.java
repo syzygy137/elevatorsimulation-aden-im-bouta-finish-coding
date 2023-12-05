@@ -206,8 +206,13 @@ public class Building {
 	 *
 	 * @param void
 	 */
-	public Elevator getElevator() {
-		return elevator;
+	public int[] getElevatorState() {
+		int[] state = new int[4];
+		state[0] = elevator.getCurrState();
+		state[1] = elevator.getCurrFloor();
+		state[2] = elevator.getDirection();
+		state[4] = elevator.getNumPassengers();
+		return state;
 	}
 	
 	

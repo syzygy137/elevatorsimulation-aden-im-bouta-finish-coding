@@ -230,7 +230,7 @@ public class Elevator {
 	 *
 	 * @return void
 	 */
-	int setDirection() {
+	int getDirection() {
 		return direction;
 	}
 	
