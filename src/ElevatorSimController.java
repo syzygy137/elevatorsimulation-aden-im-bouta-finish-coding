@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ListIterator;
 
@@ -96,6 +95,16 @@ public class ElevatorSimController {
 	//TODO: Write methods to update the GUI display
 	//      Needs to cover the Elevator state, Elevator passengers
 	//      and queues for each floor, as well as the current time
+	private void controllerToGUI() {
+		if (gui == null)
+			return;
+		int elevatorY = building.getElevatorState()[3]; //is getCurrFloor from 1-6 or 0-5?
+		//floor 1 at 11
+		// floor 6 at 1
+		elevatorY = NUM_FLOORS - elevatorY; // inverts
+		elevatorY = elevatorY * 2 + 1; //adjusts to scale
+		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[4]);
+	}
 	
 	/**
 	 * Config simulation. Reads the filename, and parses the

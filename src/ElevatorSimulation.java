@@ -1,5 +1,4 @@
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import building.Elevator;
@@ -56,18 +55,19 @@ public class ElevatorSimulation extends Application {
 	private String defualtLogStyle = "";
 	private static final int MAX_X_CELLS = 20; // width/50
 	private static final int MAX_Y_CELLS = 13;// height/50
+	private Button tickTxt = new Button("Total Ticks: 0");
 	
 	// Signs and other elevator stuff
 	private StackPane elevatorPane;
 	private Polygon up, down, left, right;
-	private int elevatorX = 1, elevatorY = 1;
+	private int elevatorX = 1, elevatorY = 11;
 	private Circle circle = new Circle(0, 0, 10);
 	private Text c = new Text(1050, 150, "C"), o = new Text(50, 50, "O");
 	private Line eLeft = new Line(50, -50, 50, 50);
 	private Line eRight = new Line(50, -50, 50, 50);
 	private Line eTop = new Line(-100, 0, 0, 0);
 	private Line eBottom = new Line(-100, 0, 0, 0);
-	private Text elevatorNum = new Text(00, 0, "0");
+	private Text elevatorNum = new Text(0, 0, "0");
 	
 	// Building GUI stuff
 	private Line g0 = new Line(0, 0, 650, 0);
@@ -114,7 +114,7 @@ public class ElevatorSimulation extends Application {
 		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play();});
 		step1.setOnAction(e -> stepTick(1));
 		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
-        buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger);
+        buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger, tickTxt);
         main.setBottom(buttonBox);
         
         elevatorPane = new StackPane();
@@ -214,7 +214,8 @@ public class ElevatorSimulation extends Application {
 		circle.setFill(Color.RED);
 	}
 	
-	public void updateGUI(int currState, String currentDir, int elevatorY, int elevatorNum) {// only needs currentDir if MVTOFLR or MV1FLR
+	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum) {// only needs currentDir if MVTOFLR or MV1FLR
+		tickTxt.setText("Total ticks: " + t.getCycleCount());
 		this.elevatorY = elevatorY;
 		this.elevatorNum.setText(Integer.toString(elevatorNum));
 		up.setVisible(false);
@@ -235,15 +236,15 @@ public class ElevatorSimulation extends Application {
 		
 		switch (currState) {
 		case (MVTOFLR):
-			if (currentDir.equals("up") || currentDir.equals("Up"))
+			if (currentDir == 1)
 				up.setVisible(true);
-			if (currentDir.equals("down") || currentDir.equals("Down"))
+			if (currentDir == -1)
 				down.setVisible(true);
 			break;
 		case (MV1FLR):
-			if (currentDir.equals("up") || currentDir.equals("Up"))
+			if (currentDir == 1)
 				up.setVisible(true);
-			if (currentDir.equals("down") || currentDir.equals("Down"))
+			if (currentDir == -1)
 				down.setVisible(true);
 			break;
 		case (OFFLD):
