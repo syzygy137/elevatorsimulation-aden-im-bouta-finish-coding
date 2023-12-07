@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import building.Building;
@@ -95,7 +96,7 @@ public class ElevatorSimController {
 	//TODO: Write methods to update the GUI display
 	//      Needs to cover the Elevator state, Elevator passengers
 	//      and queues for each floor, as well as the current time
-	private void controllerToGUI() {
+	private void controllerUpdatesTheGui() {
 		if (gui == null)
 			return;
 		int elevatorY = building.getElevatorState()[3]; //is getCurrFloor from 1-6 or 0-5?
@@ -249,10 +250,34 @@ public class ElevatorSimController {
 		// 		2) update the elevator
 		// 		3) update the GUI 
 		//  else 
-		//    	1) update the GUI
+		//    	1) update the GUI //controllerToGui
 		//		2) close the logs
 		//		3) process the passenger results
 		//		4) send endSimulation to the GUI to stop ticks.
+		if (!endSim || building.getElevatorState()[0] != 0) {
+			checkPassQueue();
+			building.updateElevator(0);
+			controllerUpdatesTheGui();
+		}
+		else {
+			controllerUpdatesTheGui();
+			building.closeLogs(NUM_FLOORS);
+			building.processPassengerData();
+			if (!gui.equals(null)) gui.endSimulation();
+			
+		}
+	}
+	
+	private void checkPassQueue() {
+		boolean end = false;
+		ArrayList<Passengers> newPassengers = new ArrayList<Passengers>();
+		while (!end) {
+			if (passQ.peek().getBoardTime() == stepCnt) {
+				newPassengers.add(passQ.peek());
+				passQ.poll();
+			}
+		}
+		building.addPassengersToQueue(newPassengers);
 	}
 
 	/**

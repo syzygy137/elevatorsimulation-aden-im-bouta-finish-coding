@@ -65,7 +65,10 @@ public class CallManager {
 	 */
 	void updateCallStatus() {
 		//TODO: Write this method if you choose to implement it...
-		
+		for (int i = 0; i < NUM_FLOORS; i++) {
+			upCalls[i] = (floors[i].peekUp() != null);
+			downCalls[i] = (floors[i].peekDown() != null);
+		}
 	}
 
 	/**
