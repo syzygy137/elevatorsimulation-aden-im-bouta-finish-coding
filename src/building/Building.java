@@ -143,6 +143,7 @@ public class Building {
 	}
 
 	private int currStateMvToFlr(int time) {
+		elevator.updateFloor();
 		if (elevator.getCurrFloor() == elevator.getMoveToFloor()) {
 			elevator.setDirection(elevator.getPostMoveToFloorDir());
 			return Elevator.STOP;
@@ -167,8 +168,15 @@ public class Building {
 	}
 	
 	private int currStateMv1Flr(int time) {
-		return Elevator.STOP;
+		elevator.updateFloor();
+		if (elevator.passengersToGetOff()) {
+			return Elevator.OPENDR;
+		}
+		
+		return Elevator.MVTOFLR;
 	}
+	
+
 	
 	//TODO: Write this method 
 	private boolean elevatorStateOrFloorChanged() {
@@ -213,6 +221,20 @@ public class Building {
 		state[2] = elevator.getDirection();
 		state[4] = elevator.getNumPassengers();
 		return state;
+	}
+	
+	/**
+	 * Gives GUI the waiting passengers
+	 *
+	 * @param void
+	 */
+	public ArrayList<Integer>[] getWaitingPassengers() {
+		ArrayList<Integer>[] allPassengers = new ArrayList[floors.length * 2];
+		for (int i = 0; i < floors.length; i += 2) {
+			allPassengers[i] = floors[i / 2].allPassengers(true);
+			allPassengers[i] = floors[(i / 2) + 1].allPassengers(false);
+		}
+		return allPassengers;
 	}
 	
 	

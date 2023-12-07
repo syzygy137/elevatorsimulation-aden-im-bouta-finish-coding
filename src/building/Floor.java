@@ -1,4 +1,5 @@
 package building;
+import java.util.ArrayList;
 // ListIterater can be used to look at the contents of the floor queues for 
 // debug/display purposes...
 import java.util.ListIterator;
@@ -37,6 +38,27 @@ public class Floor {
 		}
 	}
 	
+	public ArrayList<Integer> allPassengers(boolean getUp) {
+		GenericQueue<Passengers> queue;
+		if (getUp) {
+			queue = up;
+		} else {
+			queue = down;
+		}
+		GenericQueue<Passengers> temp = new GenericQueue<Passengers>(queue.size());
+		ArrayList<Integer> all = new ArrayList<Integer>();
+		while (!queue.isEmpty()) {
+			temp.add(queue);
+		}
+		while (!temp.isEmpty()) {
+			Passengers passengers = temp.remove();
+			queue.add(passengers);
+			all.add(passengers.getNumPass());
+		}
+		return all;
+	}
+	
+	
 	public Passengers peekUp() {
 		return up.peek();
 	}
@@ -52,6 +74,7 @@ public class Floor {
 	public Passengers removeDown() {
 		return down.remove();
 	}
+	
 	
 	public boolean isEmpty() {
 		return up.peek() == null && down.peek() == null;

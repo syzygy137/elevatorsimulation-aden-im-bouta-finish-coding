@@ -269,14 +269,15 @@ public class Elevator {
 	int getPostMoveToFloorDir() {
 		return postMoveToFloorDir;
 	}
+
 	
-	/**
-	 * Sets the prevfloor to the currfloor
-	 *
-	 * @return void
-	 */
-	void setPrevFloor() {
-		prevFloor = currFloor;
+	void updateFloor() {
+		if (currState == MVTOFLR || currState == MV1FLR) {
+			if (timeInState % ticksPerFloor == 0) {
+				prevFloor = currFloor;
+				currFloor += direction;
+			}
+		}
 	}
 	
 
