@@ -79,6 +79,8 @@ public class Elevator {
     public final static int CLOSED = 1;
     
     public final static int MOVING = 2;
+    
+    private int boardDelay;
 
 	
 	/** The passengers. */
@@ -140,7 +142,20 @@ public class Elevator {
     	}
     	return false;
     }
+    
+    void board(Floor floor) {
+    	Passengers passengers;
+    	if (direction == Building.UP) {
+    		passengers = floor.removeUp();
+    	} else {
+    		passengers = floor.removeDown();
+    	}
+    	this.passengers += passengers.getNumPass();
+    	passByFloor[passengers.getDestFloor()].add(passengers);
+    }
+    
 
+    
 	
 	//TODO: Add Getter/Setters and any methods that you deem are required. Examples 
 	//      include:
@@ -304,6 +319,22 @@ public class Elevator {
 	 */
 	boolean isEmpty() {
 		return passengers == 0;
+	}
+	
+	int getBoardDelay() {
+		return boardDelay;
+	}
+	
+	void addBoardDelay(int boardedPassengers) {
+		if (boardedPassengers == 0) {
+			if (timeInState == boardDelay) {
+				boardDelay = 0;
+			}
+		}
+		boardDelay += boardedPassengers / passPerTick;
+		if (boardedPassengers % passPerTick != 0) {
+			boardDelay++;
+		}
 	}
 	
 	
