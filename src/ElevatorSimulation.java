@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import building.Elevator;
@@ -17,6 +18,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+//import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
@@ -77,6 +79,9 @@ public class ElevatorSimulation extends Application {
 	private Line g4 = new Line(0, 0, 650, 0);
 	private Line g5 = new Line(0, 0, 650, 0);
 	private Line g6 = new Line(0, 0, 650, 0);
+	
+	// Passengers
+	private HBox passPane;
 	
 	
 	/**
@@ -141,9 +146,16 @@ public class ElevatorSimulation extends Application {
         gp.add(g5, 2, 2);
         gp.add(g6, 2, 0);
         
+        passPane = new HBox();
+        
         Scene scene = new Scene(main, 1000, 700);
 		primaryStage.setScene(scene);
 		initTimeline();
+		
+		/*ArrayList<Integer>[] testList = new ArrayList[12];
+		ArrayList<Integer> testArrayList = new ArrayList<Integer>();
+		testList[0] = testArrayList;
+		updateGUI(Elevator.STOP, 0, 1, 0, testList);*/
 	}
 	
 	/**
@@ -214,7 +226,7 @@ public class ElevatorSimulation extends Application {
 		circle.setFill(Color.RED);
 	}
 	
-	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum) {// only needs currentDir if MVTOFLR or MV1FLR
+	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum, ArrayList<Integer>[] callingPeople) {
 		tickTxt.setText("Total ticks: " + t.getCycleCount());
 		this.elevatorY = elevatorY;
 		this.elevatorNum.setText(Integer.toString(elevatorNum));
@@ -263,6 +275,21 @@ public class ElevatorSimulation extends Application {
 			c.setVisible(true);
 			break;
 		}
+		/*gp.getChildren().remove(passPane);
+		passPane = new HBox();
+		gp.add(passPane, 3, 0);
+		for (int i = 0; i < NUM_FLOORS * 2; i++) {
+			// get array of two array lists for each floor
+			// loop through each array list and instantiate ellipse for each(change color and location for up vs. down)
+				// Instantiate numbers on top
+			int y = i;
+			for (int j = 0; j < callingPeople[i].size(); j++) {
+				int x = j;
+				Ellipse currGroup = new Ellipse(x, y, 50, 100);
+				// Add everything to scene in loop
+				passPane.getChildren().add(currGroup);
+			}
+		}*/
 	}
 	
 	public void setGridPaneConstraints() {
