@@ -19,10 +19,10 @@ import passengers.Passengers;
 public class Building {
 	
 	/**  Constants for direction. */
-	private final static int UP = 1;
+	public final static int UP = 1;
 	
 	/** The Constant DOWN. */
-	private final static int DOWN = -1;
+	public final static int DOWN = -1;
 	
 	/** The Constant LOGGER. */
 	private final static Logger LOGGER = Logger.getLogger(Building.class.getName());
@@ -150,9 +150,19 @@ public class Building {
 		}
 		return Elevator.MVTOFLR;
 	}
-	
+		
 	private int currStateOpenDr(int time) {
-		return Elevator.STOP;
+		elevator.updateDoor();
+		if (elevator.getDoorState() == Elevator.OPEN) {
+			if (elevator.passengersToGetOff()) {
+				return Elevator.OFFLD;
+			}
+			if (elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
+				return Elevator.BOARD;
+			}
+			return Elevator.CLOSEDR;
+		}
+		return Elevator.OPENDR;
 	}
 	
 	private int currStateOffLd(int time) {
@@ -164,7 +174,15 @@ public class Building {
 	}
 	
 	private int currStateCloseDr(int time) {
-		return Elevator.STOP;
+		elevator.updateDoor();
+		if (elevator.getDoorState() == Elevator.CLOSED) {
+			//OPENDR
+			if (elevator.isEmpty() && !callMgr.callPending()) {
+				return Elevator.STOP;
+			}
+			//MV1FLR
+		}
+		return Elevator.CLOSEDR;
 	}
 	
 	private int currStateMv1Flr(int time) {
@@ -173,7 +191,7 @@ public class Building {
 			return Elevator.OPENDR;
 		}
 		
-		return Elevator.MVTOFLR;
+		return Elevator.MV1FLR;
 	}
 	
 

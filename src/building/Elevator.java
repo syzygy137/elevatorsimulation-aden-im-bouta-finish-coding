@@ -74,6 +74,11 @@ public class Elevator {
 	/** The door state. */
                             	private int doorState;      // used to model the state of the doors - OPEN, CLOSED
 	                            // or moving
+    public final static int OPEN = 0;
+    
+    public final static int CLOSED = 1;
+    
+    public final static int MOVING = 2;
 
 	
 	/** The passengers. */
@@ -121,6 +126,19 @@ public class Elevator {
     		return false;
     	}
     	return true;
+    }
+    
+    boolean passengersToBoard(Floor floor) {
+    	if (direction == Building.UP) {
+    		if (!(floor.peekUp() == null) && floor.peekUp().getNumPass() <= capacity - passengers) {
+    			return true;
+    		}
+    	} else {
+    		if (!(floor.peekDown() == null) && floor.peekDown().getNumPass() <= capacity - passengers) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
 	
@@ -268,6 +286,38 @@ public class Elevator {
 	 */
 	int getPostMoveToFloorDir() {
 		return postMoveToFloorDir;
+	}
+	
+	/**
+	 * Gets the door state
+	 *
+	 * @return int
+	 */
+	int getDoorState() {
+		return doorState;
+	}
+	
+	/**
+	 * Returns true if empty
+	 *
+	 * @return boolean
+	 */
+	boolean isEmpty() {
+		return passengers == 0;
+	}
+	
+	
+	
+	void updateDoor() {
+		if (currState == OPENDR || currState == CLOSEDR) {
+			if (timeInState % ticksDoorOpenClose == 0) {
+				if (currState == OPENDR)
+					doorState = OPEN;
+				if (currState == CLOSEDR)
+					doorState = CLOSED;
+			}
+			doorState = MOVING;
+		}
 	}
 
 	

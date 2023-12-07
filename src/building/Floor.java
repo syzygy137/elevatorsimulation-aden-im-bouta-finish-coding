@@ -48,7 +48,7 @@ public class Floor {
 		GenericQueue<Passengers> temp = new GenericQueue<Passengers>(queue.size());
 		ArrayList<Integer> all = new ArrayList<Integer>();
 		while (!queue.isEmpty()) {
-			temp.add(queue);
+			temp.add(queue.remove());
 		}
 		while (!temp.isEmpty()) {
 			Passengers passengers = temp.remove();
