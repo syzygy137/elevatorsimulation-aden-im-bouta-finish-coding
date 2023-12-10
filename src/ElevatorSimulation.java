@@ -16,9 +16,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-//import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
@@ -81,7 +82,7 @@ public class ElevatorSimulation extends Application {
 	private Line g6 = new Line(0, 0, 650, 0);
 	
 	// Passengers
-	private HBox passPane;
+	private HBox[] passPane = new HBox[12];
 	
 	
 	/**
@@ -146,16 +147,32 @@ public class ElevatorSimulation extends Application {
         gp.add(g5, 2, 2);
         gp.add(g6, 2, 0);
         
-        passPane = new HBox();
-        
         Scene scene = new Scene(main, 1000, 700);
 		primaryStage.setScene(scene);
 		initTimeline();
 		
 		/*ArrayList<Integer>[] testList = new ArrayList[12];
 		ArrayList<Integer> testArrayList = new ArrayList<Integer>();
+		testArrayList.add(1);
+		testArrayList.add(2);
 		testList[0] = testArrayList;
+		testList[1] = testArrayList;
+		testList[2] = testArrayList;
+		testList[3] = testArrayList;
+		testList[4] = testArrayList;
+		testList[5] = testArrayList;
+		testList[6] = testArrayList;
+		testList[7] = testArrayList;
+		testList[8] = testArrayList;
+		testList[9] = testArrayList;
+		testList[10] = testArrayList;
+		testList[11] = testArrayList;
 		updateGUI(Elevator.STOP, 0, 1, 0, testList);*/
+		
+		for (int i = 0; i < 12; i++) {
+			passPane[i] = new HBox();
+			gp.add(passPane[i], 0, i);
+		}
 	}
 	
 	/**
@@ -275,21 +292,33 @@ public class ElevatorSimulation extends Application {
 			c.setVisible(true);
 			break;
 		}
-		/*gp.getChildren().remove(passPane);
-		passPane = new HBox();
-		gp.add(passPane, 3, 0);
+
 		for (int i = 0; i < NUM_FLOORS * 2; i++) {
 			// get array of two array lists for each floor
 			// loop through each array list and instantiate ellipse for each(change color and location for up vs. down)
 				// Instantiate numbers on top
-			int y = i;
+			
+			gp.getChildren().remove(passPane[i]);
+			passPane[i] = new HBox();
+			gp.add(passPane[i], 3, i);
 			for (int j = 0; j < callingPeople[i].size(); j++) {
-				int x = j;
-				Ellipse currGroup = new Ellipse(x, y, 50, 100);
+				VBox currPane = new VBox();
+				StackPane currGroup = new StackPane();
+				Ellipse currE = new Ellipse(0, 0, 15, 30);
+				Text currText = new Text(callingPeople[i].get(j).toString());
+				currText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 18));
+				currGroup.getChildren().addAll(currE, currText);
+				Circle expander = new Circle(0, 0, 20);
+				expander.setVisible(false);
+				currPane.getChildren().addAll(expander, currGroup);
+				if (i % 2 == 0)
+					currE.setFill(Color.RED);
+				else
+					currE.setFill(Color.BLUE);
 				// Add everything to scene in loop
-				passPane.getChildren().add(currGroup);
+				passPane[i].getChildren().add(currPane);
 			}
-		}*/
+		}
 	}
 	
 	public void setGridPaneConstraints() {
