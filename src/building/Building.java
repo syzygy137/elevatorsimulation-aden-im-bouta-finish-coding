@@ -170,7 +170,17 @@ public class Building {
 	}
 	
 	private int currStateBoard(int time) {
-		return Elevator.STOP;
+		int boardedPassengers = 0;
+		while(elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
+			boardedPassengers -= elevator.getNumPassengers();
+			elevator.board(floors[elevator.getCurrFloor()]);
+			boardedPassengers += elevator.getNumPassengers();
+		}
+		elevator.addBoardDelay(boardedPassengers);
+		if (elevator.getBoardDelay() == 0) {
+			return Elevator.CLOSEDR;
+		}
+		return Elevator.BOARD;
 	}
 	
 	private int currStateCloseDr(int time) {
