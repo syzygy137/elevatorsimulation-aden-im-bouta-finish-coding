@@ -6,7 +6,7 @@ import passengers.Passengers;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Elevator.
+ * The Class Elevator, written by Henry
  *
  * @author This class will represent an elevator, and will contain
  * configuration information (capacity, speed, etc) as well

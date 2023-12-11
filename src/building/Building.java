@@ -13,7 +13,7 @@ import passengers.Passengers;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Building.
+ * The Class Building, written by Henry
  */
 // TODO: Auto-generated Javadoc
 public class Building {
