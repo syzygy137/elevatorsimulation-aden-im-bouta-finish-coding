@@ -285,6 +285,8 @@ public class ElevatorSimController {
 			if (passQ.peek().getBoardTime() == stepCnt) {
 				newPassengers.add(passQ.peek());
 				passQ.poll();
+			}
+			else {
 				end = true;
 			}
 		}
