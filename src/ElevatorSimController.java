@@ -15,6 +15,7 @@ import passengers.Passengers;
  */
 // TODO: Auto-generated Javadoc
 public class ElevatorSimController {
+	// Owner by Sly
 	
 	/**  Constant to specify the configuration file for the simulation. */
 	private static final String SIM_CONFIG = "ElevatorSimConfig.csv";
@@ -104,7 +105,7 @@ public class ElevatorSimController {
 		// floor 6 at 1
 		elevatorY = NUM_FLOORS - elevatorY; // inverts
 		elevatorY = elevatorY * 2 + 1; //adjusts to scale
-		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[4], building.getWaitingPassengers());
+		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[4], building.getWaitingPassengers(), stepCnt);
 	}
 	
 	/**
@@ -235,6 +236,7 @@ public class ElevatorSimController {
  	/**
 	 * Step sim. See the comments below for the functionality you
 	 * must implement......
+	 * Written by Dan
 	 */
 	public void stepSim() {
  		// DO NOT MOVE THIS - YOU MUST INCREMENT TIME FIRST!
@@ -266,6 +268,7 @@ public class ElevatorSimController {
 			if (!gui.equals(null)) gui.endSimulation();
 			
 		}
+		System.out.println("stepSim");
 	}
 	
 	private void checkPassQueue() {

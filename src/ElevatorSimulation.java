@@ -30,6 +30,8 @@ import javafx.scene.text.FontWeight;
 
 
 public class ElevatorSimulation extends Application {
+	// Owner by Sly
+	
 	/** Instantiate the GUI fields */
 	private ElevatorSimController controller;
 	private final int NUM_FLOORS;
@@ -117,7 +119,7 @@ public class ElevatorSimulation extends Application {
 		TextField stepBox = new TextField("1");
 		Button logger = new Button("Logger");
 		logger.setOnAction(e -> controller.enableLogging());
-		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play();});
+		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play(); System.out.println("Run");});
 		step1.setOnAction(e -> stepTick(1));
 		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
         buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger, tickTxt);
@@ -205,7 +207,8 @@ public class ElevatorSimulation extends Application {
 	private void initTimeline() {
 		//TODO: Code this method
 		t = new Timeline(new KeyFrame(Duration.millis(millisPerTick), e -> controller.stepSim()));
-		t.setCycleCount(Animation.INDEFINITE);
+		//t.setCycleCount(Animation.INDEFINITE);
+		System.out.println("initTimeline");
 	}
 	
 	public void endSimulation() {
@@ -243,8 +246,9 @@ public class ElevatorSimulation extends Application {
 		circle.setFill(Color.RED);
 	}
 	
-	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum, ArrayList<Integer>[] callingPeople) {
-		tickTxt.setText("Total ticks: " + t.getCycleCount());
+	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum, ArrayList<Integer>[] callingPeople, int stepCnt) {
+		//tickTxt.setText("Total ticks: " + t.getCycleCount());
+		tickTxt.setText("Total ticks: " + stepCnt);
 		this.elevatorY = elevatorY;
 		this.elevatorNum.setText(Integer.toString(elevatorNum));
 		up.setVisible(false);
