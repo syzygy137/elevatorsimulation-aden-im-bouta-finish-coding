@@ -235,6 +235,7 @@ public class ElevatorSimController {
  	/**
 	 * Step sim. See the comments below for the functionality you
 	 * must implement......
+	 * Written by Dan
 	 */
 	public void stepSim() {
  		// DO NOT MOVE THIS - YOU MUST INCREMENT TIME FIRST!
