@@ -247,7 +247,7 @@ public class Building {
 		state[0] = elevator.getCurrState();
 		state[1] = elevator.getCurrFloor();
 		state[2] = elevator.getDirection();
-		state[4] = elevator.getNumPassengers();
+		state[3] = elevator.getNumPassengers();
 		return state;
 	}
 	
