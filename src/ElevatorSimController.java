@@ -95,6 +95,9 @@ public class ElevatorSimController {
 	
 	//TODO: Write methods to update the GUI display
 	//      Needs to cover the Elevator state, Elevator passengers
+	/**
+	 * Controller updates the gui.
+	 */
 	//      and queues for each floor, as well as the current time
 	private void controllerUpdatesTheGui() {
 		if (gui == null)
@@ -205,7 +208,7 @@ public class ElevatorSimController {
 	}
 	
 	/**
-	 * Gets the number of floors in the building
+	 * Gets the number of floors in the building.
 	 *
 	 * @return the num floors
 	 */
@@ -257,7 +260,7 @@ public class ElevatorSimController {
 		//		4) send endSimulation to the GUI to stop ticks.
 		if (!endSim || building.getElevatorState()[0] != 0) {
 			checkPassQueue();
-			building.updateElevator(0);
+			building.updateElevator(stepCnt);
 			controllerUpdatesTheGui();
 		}
 		else {
@@ -269,6 +272,10 @@ public class ElevatorSimController {
 		}
 	}
 	
+	/**
+	 * Check pass queue.
+	 * Written by Dan
+	 */
 	private void checkPassQueue() {
 		boolean end = false;
 		ArrayList<Passengers> newPassengers = new ArrayList<Passengers>();
@@ -276,6 +283,7 @@ public class ElevatorSimController {
 			if (passQ.peek().getBoardTime() == stepCnt) {
 				newPassengers.add(passQ.peek());
 				passQ.poll();
+				end = true;
 			}
 		}
 		building.addPassengersToQueue(newPassengers);
