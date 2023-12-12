@@ -96,6 +96,7 @@ public class Building {
 	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
 		for (Passengers passengers : passengerList) {
 			floors[passengers.getOnFloor()].addPassengers(passengers);
+			logCalls(passengers.getTime(), passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 		}
 	}
 	
@@ -259,7 +260,7 @@ public class Building {
 		ArrayList<Integer>[] allPassengers = new ArrayList[floors.length * 2];
 		for (int i = 0; i < floors.length; i += 2) {
 			allPassengers[i] = floors[i / 2].allPassengers(true);
-			allPassengers[i + 1] = floors[(i / 2) + 1].allPassengers(false);
+			allPassengers[i + 1] = floors[i / 2].allPassengers(false);
 		}
 		return allPassengers;
 	}
