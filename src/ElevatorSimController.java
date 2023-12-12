@@ -103,10 +103,10 @@ public class ElevatorSimController {
 	private void controllerUpdatesTheGui() {
 		if (gui == null)
 			return;
-		int elevatorY = building.getElevatorState()[3]; //is getCurrFloor from 1-6 or 0-5?
+		int elevatorY = building.getElevatorState()[2]; //is getCurrFloor 0-5
 		//floor 1 at 11
 		// floor 6 at 1
-		elevatorY = NUM_FLOORS - elevatorY; // inverts
+		elevatorY = NUM_FLOORS - (elevatorY + 1); // inverts
 		elevatorY = elevatorY * 2 + 1; //adjusts to scale
 		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[3], building.getWaitingPassengers(), stepCnt);
 	}
@@ -280,7 +280,7 @@ public class ElevatorSimController {
 		boolean end = false;
 		ArrayList<Passengers> newPassengers = new ArrayList<Passengers>();
 		while (!end) {
-			if (passQ.peek().getBoardTime() == stepCnt) {
+			if (passQ.peek().getTime() == stepCnt) {
 				newPassengers.add(passQ.peek());
 				passQ.poll();
 			}

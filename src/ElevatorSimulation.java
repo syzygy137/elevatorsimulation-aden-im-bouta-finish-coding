@@ -169,7 +169,7 @@ public class ElevatorSimulation extends Application {
 		testList[9] = testArrayList;
 		testList[10] = testArrayList;
 		testList[11] = testArrayList;
-		updateGUI(Elevator.STOP, 0, 1, 0, testList);*/
+		updateGUI(Elevator.STOP, 0, 1, 0, testList, 0);*/
 		
 		for (int i = 0; i < 12; i++) {
 			passPane[i] = new HBox();
@@ -302,7 +302,6 @@ public class ElevatorSimulation extends Application {
 			// get array of two array lists for each floor
 			// loop through each array list and instantiate ellipse for each(change color and location for up vs. down)
 				// Instantiate numbers on top
-			
 			gp.getChildren().remove(passPane[i]);
 			passPane[i] = new HBox();
 			gp.add(passPane[i], 3, i);
