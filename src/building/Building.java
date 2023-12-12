@@ -200,7 +200,6 @@ public class Building {
 		if (elevator.passengersToGetOff()) {
 			return Elevator.OPENDR;
 		}
-		
 		return Elevator.MV1FLR;
 	}
 	
@@ -260,7 +259,7 @@ public class Building {
 		ArrayList<Integer>[] allPassengers = new ArrayList[floors.length * 2];
 		for (int i = 0; i < floors.length; i += 2) {
 			allPassengers[i] = floors[i / 2].allPassengers(true);
-			allPassengers[i] = floors[(i / 2) + 1].allPassengers(false);
+			allPassengers[i + 1] = floors[(i / 2) + 1].allPassengers(false);
 		}
 		return allPassengers;
 	}
