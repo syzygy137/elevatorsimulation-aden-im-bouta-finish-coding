@@ -258,7 +258,7 @@ public class Building {
 	 */
 	public ArrayList<Integer>[] getWaitingPassengers() {
 		ArrayList<Integer>[] allPassengers = new ArrayList[floors.length * 2];
-		for (int i = 0; i < floors.length; i += 2) {
+		for (int i = 0; i < floors.length * 2; i += 2) {
 			allPassengers[i] = floors[i / 2].allPassengers(true);
 			allPassengers[i + 1] = floors[i / 2].allPassengers(false);
 		}
