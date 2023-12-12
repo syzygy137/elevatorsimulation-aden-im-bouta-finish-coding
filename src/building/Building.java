@@ -95,8 +95,8 @@ public class Building {
 	
 	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
 		for (Passengers passengers : passengerList) {
-			floors[passengers.getOnFloor()].addPassengers(passengers);
 			logCalls(passengers.getTime(), passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+			floors[passengers.getOnFloor()].addPassengers(passengers);
 		}
 	}
 	
