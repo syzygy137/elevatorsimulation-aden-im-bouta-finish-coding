@@ -244,7 +244,6 @@ public class ElevatorSimController {
 	public void stepSim() {
  		// DO NOT MOVE THIS - YOU MUST INCREMENT TIME FIRST!
 		stepCnt++;
-		
 		// TODO: Write the rest of this method
 		// If simulation is not completed (not all passengers have been processed
 		// or elevator is not all in STOP state), then
