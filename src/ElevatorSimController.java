@@ -280,6 +280,7 @@ public class ElevatorSimController {
 		boolean end = false;
 		ArrayList<Passengers> newPassengers = new ArrayList<Passengers>();
 		while (!end) {
+			if (passQ.isEmpty()) return;
 			if (passQ.peek().getTime() == stepCnt) {
 				newPassengers.add(passQ.peek());
 				passQ.poll();
