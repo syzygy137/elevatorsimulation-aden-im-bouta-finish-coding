@@ -213,6 +213,7 @@ public class ElevatorSimulation extends Application {
 	
 	public void endSimulation() {
 		t.pause();
+		System.out.println("endSimulation");
 	}
 	
 	private void makeShapes() {
