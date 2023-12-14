@@ -29,20 +29,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight; 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ElevatorSimulation.
+ */
 public class ElevatorSimulation extends Application {
-	// Owner by Sly
+	// Owned by Sly
 	
-	/** Instantiate the GUI fields */
+	/**  Instantiate the GUI fields. */
 	private ElevatorSimController controller;
 	private final int NUM_FLOORS;
-	private int currFloor;
-	private int passengers;
-	private int time;
 	
-	/** you MUST use millisPerTick as the duration for your timeline */
+	/**  you MUST use millisPerTick as the duration for your timeline. */
 	private static int millisPerTick = 250;
 
-	/** Local copies of the states for tracking purposes */
+	/**  Local copies of the states for tracking purposes. */
 	private final int STOP = Elevator.STOP;
 	private final int MVTOFLR = Elevator.MVTOFLR;
 	private final int OPENDR = Elevator.OPENDR;
@@ -51,15 +52,14 @@ public class ElevatorSimulation extends Application {
 	private final int CLOSEDR = Elevator.CLOSEDR;
 	private final int MV1FLR = Elevator.MV1FLR;
 	
-	// My vars
 	private BorderPane main;
-	private HBox buttonBox;
 	private GridPane gp;
+	
 	private final static Logger LOGGER = Logger.getLogger(ElevatorSimulation.class.getName());
 	private Timeline t;
 	private String defualtLogStyle = "";
-	private static final int MAX_X_CELLS = 20; // width/50
-	private static final int MAX_Y_CELLS = 13;// height/50
+	private static final int MAX_X_CELLS = 20;
+	private static final int MAX_Y_CELLS = 13;
 	private Button tickTxt = new Button("Total Ticks: 0");
 	
 	// Signs and other elevator stuff
@@ -88,134 +88,46 @@ public class ElevatorSimulation extends Application {
 	
 	
 	/**
-	 * Instantiates a new elevator simulation.
+	 * Instantiates a new elevator simulation. Creates controller
 	 */
 	public ElevatorSimulation() {
 		controller = new ElevatorSimController(this);	
 		NUM_FLOORS = controller.getNumFloors();
-		currFloor = 0;
 	}
 
 	/**
-	 * Start.
+	 * Start. Initializes all states
 	 *
 	 * @param primaryStage the primary stage
 	 * @throws Exception the exception
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// You need to design the GUI. Note that the test name should
-		// appear in the Title of the window!!
 		primaryStage.setTitle("Elevator Simulation - "+ controller.getTestName());
 		primaryStage.show();
 
-		//TODO: Complete your GUI, including adding any helper methods.
-		//      Meet the 30 line limit...
 		main = new BorderPane();
-		buttonBox = new HBox();
-		Button run = new Button("Run");
-		Button step1 = new Button("Step");
-		Button step2 = new Button("Step: ");
-		TextField stepBox = new TextField("1");
-		Button logger = new Button("Logger");
-		logger.setOnAction(e -> controller.enableLogging());
-		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play(); System.out.println("Run");});
-		step1.setOnAction(e -> stepTick(1));
-		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
-        buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger, tickTxt);
-        main.setBottom(buttonBox);
-        
         elevatorPane = new StackPane();
         makeShapes();	
 		elevatorPane.getChildren().addAll(up, right, down, left, circle, o, c);
 		c.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
 		o.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-		
-        gp = new GridPane();
-        main.setCenter(gp);
-        setGridPaneConstraints();
-        gp.add(elevatorPane, elevatorX - 1, elevatorY);
-        gp.add(eLeft, elevatorX - 1, elevatorY);
-        gp.add(eRight, elevatorX + 1, elevatorY);
-        gp.add(eTop, elevatorX - 1, elevatorY - 1);
-        gp.add(eBottom, elevatorX - 1, elevatorY + 1);
-        gp.add(elevatorNum, elevatorX, elevatorY);
-        elevatorNum.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-        gp.add(g0, 2, 12);
-        gp.add(g1, 2, 10);
-        gp.add(g2, 2, 8);
-        gp.add(g3, 2, 6);
-        gp.add(g4, 2, 4);
-        gp.add(g5, 2, 2);
-        gp.add(g6, 2, 0);
+		setButtons();
+        setGripPane();
         
         Scene scene = new Scene(main, 1000, 700);
 		primaryStage.setScene(scene);
 		initTimeline();
 		
-		/*ArrayList<Integer>[] testList = new ArrayList[12];
-		ArrayList<Integer> testArrayList = new ArrayList<Integer>();
-		testArrayList.add(1);
-		testArrayList.add(2);
-		testList[0] = testArrayList;
-		testList[1] = testArrayList;
-		testList[2] = testArrayList;
-		testList[3] = testArrayList;
-		testList[4] = testArrayList;
-		testList[5] = testArrayList;
-		testList[6] = testArrayList;
-		testList[7] = testArrayList;
-		testList[8] = testArrayList;
-		testList[9] = testArrayList;
-		testList[10] = testArrayList;
-		testList[11] = testArrayList;
-		updateGUI(Elevator.STOP, 0, 1, 0, testList, 0);*/
-		
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < passPane.length; i++) {
 			passPane[i] = new HBox();
 			gp.add(passPane[i], 0, i);
 		}
 	}
 	
 	/**
-	 * The main method. Allows command line to modulate the speed of the simulation.
-	 *
-	 * @param args the arguments
+	 * Creates arrows to be used in updateGUI that represent a different elevator state.
 	 */
-	public static void main (String[] args) {
-		if (args.length>0) {
-			for (int i = 0; i < args.length-1; i++) {
-				if ("-m".equals(args[i])) {
-					try {
-						ElevatorSimulation.millisPerTick = Integer.parseInt(args[i+1]);
-					} catch (NumberFormatException e) {
-						System.out.println("Unable to update millisPerTick to "+args[i+1]);
-					}
-				}
-			}
-		}
-		Application.launch(args);
-	}
-	
-	private void stepTick(int numTicks) {
-		while (numTicks > 0) {
-			controller.stepSim();
-			numTicks--;
-		}
-	}
-	
-	private void initTimeline() {
-		//TODO: Code this method
-		t = new Timeline(new KeyFrame(Duration.millis(millisPerTick), e -> controller.stepSim()));
-		//t.setCycleCount(Animation.INDEFINITE);
-		System.out.println("initTimeline");
-	}
-	
-	public void endSimulation() {
-		t.pause();
-		System.out.println("endSimulation");
-	}
-	
 	private void makeShapes() {
 		up = new Polygon();  //Up
 		up.getPoints().addAll(5.0,20.0,25.0,20.0,15.0,20-10*Math.pow(3,0.5));
@@ -247,8 +159,108 @@ public class ElevatorSimulation extends Application {
 		circle.setFill(Color.RED);
 	}
 	
+	/**
+	 * Initializes the control Buttons at the bottom of the border pane. Done once during start
+	 */
+	private void setButtons() {
+		HBox buttonBox = new HBox();
+		Button run = new Button("Run");
+		Button step1 = new Button("Step");
+		Button step2 = new Button("Step: ");
+		TextField stepBox = new TextField("1");
+		Button logger = new Button("Logger");
+		logger.setOnAction(e -> controller.enableLogging());
+		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play(); System.out.println("Run");});
+		step1.setOnAction(e -> stepTick(1));
+		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
+        buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger, tickTxt);
+        main.setBottom(buttonBox);
+	}
+	
+	/**
+	 * Initializes the GridPane in start.
+	 */
+	private void setGripPane() {
+		gp = new GridPane();
+        main.setCenter(gp);
+        setGridPaneConstraints();
+        gp.add(elevatorPane, elevatorX - 1, elevatorY);
+        gp.add(eLeft, elevatorX - 1, elevatorY);
+        gp.add(eRight, elevatorX + 1, elevatorY);
+        gp.add(eTop, elevatorX - 1, elevatorY - 1);
+        gp.add(eBottom, elevatorX - 1, elevatorY + 1);
+        gp.add(elevatorNum, elevatorX, elevatorY);
+        elevatorNum.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(g0, 2, 12);
+        gp.add(g1, 2, 10);
+        gp.add(g2, 2, 8);
+        gp.add(g3, 2, 6);
+        gp.add(g4, 2, 4);
+        gp.add(g5, 2, 2);
+        gp.add(g6, 2, 0);
+	}
+	
+	/**
+	 * The main method. Allows command line to modulate the speed of the simulation.
+	 *
+	 * @param args the arguments
+	 */
+	public static void main (String[] args) {
+		if (args.length>0) {
+			for (int i = 0; i < args.length-1; i++) {
+				if ("-m".equals(args[i])) {
+					try {
+						ElevatorSimulation.millisPerTick = Integer.parseInt(args[i+1]);
+					} catch (NumberFormatException e) {
+						System.out.println("Unable to update millisPerTick to "+args[i+1]);
+					}
+				}
+			}
+		}
+		Application.launch(args);
+	}
+	
+	/**
+	 * Steps forward the controller the set number of ticks
+	 *
+	 * @param numTicks the number of ticks stepped forward
+	 */
+	private void stepTick(int numTicks) {
+		while (numTicks > 0) {
+			controller.stepSim();
+			numTicks--;
+		}
+	}
+	
+	/**
+	 * Initializes the timeline to step the simulation based on millisPerTick
+	 */
+	private void initTimeline() {
+		//TODO: Code this method
+		t = new Timeline(new KeyFrame(Duration.millis(millisPerTick), e -> controller.stepSim()));
+		//t.setCycleCount(Animation.INDEFINITE);
+		System.out.println("initTimeline");
+	}
+	
+	/**
+	 * Stops the timeline
+	 */
+	public void endSimulation() {
+		t.pause();
+		System.out.println("endSimulation");
+	}
+	
+	/**
+	 * Updates all parts of GUI every tick based on data passed through controller
+	 *
+	 * @param currState the current state of the elevator
+	 * @param currentDir the current direction of the elevator
+	 * @param elevatorY the elevator Y value of the elevator(modified previously to line up with GUI Y values)
+	 * @param elevatorNum the elevator number of passengers
+	 * @param callingPeople the current passenger groups waiting for an elevator
+	 * @param stepCnt the total amount of steps
+	 */
 	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum, ArrayList<Integer>[] callingPeople, int stepCnt) {
-		//tickTxt.setText("Total ticks: " + t.getCycleCount());
 		tickTxt.setText("Total ticks: " + stepCnt);
 		this.elevatorY = elevatorY;
 		this.elevatorNum.setText(Integer.toString(elevatorNum));
@@ -268,18 +280,27 @@ public class ElevatorSimulation extends Application {
         gp.add(eBottom, elevatorX - 1, elevatorY + 1);
         gp.add(this.elevatorNum, elevatorX, elevatorY);
 		
+		drawElevatorState(currState, currentDir);
+
+		drawPassengers(callingPeople);
+	}
+	
+	
+	/**
+	 * Draws elevator state using symbols to represent state.
+	 *
+	 * @param currState the current state of the elevator
+	 * @param currentDir the current direction of the elevator
+	 */
+	private void drawElevatorState(int currState, int currentDir) {
 		switch (currState) {
 		case (MVTOFLR):
-			if (currentDir == 1)
-				up.setVisible(true);
-			if (currentDir == -1)
-				down.setVisible(true);
+			if (currentDir == 1) up.setVisible(true);
+			if (currentDir == -1) down.setVisible(true);
 			break;
 		case (MV1FLR):
-			if (currentDir == 1)
-				up.setVisible(true);
-			if (currentDir == -1)
-				down.setVisible(true);
+			if (currentDir == 1) up.setVisible(true);
+			if (currentDir == -1) down.setVisible(true);
 			break;
 		case (OFFLD):
 			right.setVisible(true);
@@ -297,19 +318,24 @@ public class ElevatorSimulation extends Application {
 			c.setVisible(true);
 			break;
 		}
-
+	}
+	
+	
+	/**
+	 * Draws passenger groups with number representing amount in that group. Color and position represent calls going up or down.
+	 *
+	 * @param callingPeople the calling people waiting for an elevator
+	 */
+	private void drawPassengers(ArrayList<Integer>[] callingPeople) {
 		for (int i = 0; i < NUM_FLOORS * 2; i++) {
-			// get array of two array lists for each floor
-			// loop through each array list and instantiate ellipse for each(change color and location for up vs. down)
-				// Instantiate numbers on top
 			gp.getChildren().remove(passPane[i]);
 			passPane[i] = new HBox();
 			gp.add(passPane[i], 3, i);
-			for (int j = 0; j < callingPeople[i].size(); j++) {
+			for (int j = 0; j < callingPeople[11-i].size(); j++) {
 				VBox currPane = new VBox();
 				StackPane currGroup = new StackPane();
 				Ellipse currE = new Ellipse(0, 0, 15, 30);
-				Text currText = new Text(callingPeople[i].get(j).toString());
+				Text currText = new Text(callingPeople[11-i].get(j).toString());
 				currText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 18));
 				currGroup.getChildren().addAll(currE, currText);
 				Circle expander = new Circle(0, 0, 20);
@@ -319,12 +345,15 @@ public class ElevatorSimulation extends Application {
 					currE.setFill(Color.RED);
 				else
 					currE.setFill(Color.BLUE);
-				// Add everything to scene in loop
 				passPane[i].getChildren().add(currPane);
 			}
 		}
 	}
 	
+	
+	/**
+	 * Sets the grid pane constraints.
+	 */
 	public void setGridPaneConstraints() {
 		for (int i = 0; i < MAX_X_CELLS; i ++) 
 			gp.getColumnConstraints().add(new ColumnConstraints(50));
