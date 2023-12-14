@@ -169,16 +169,12 @@ public class Building {
 	}
 	
 	private int currStateOffLd(int time) {
-		int offloadedPassengers = elevator.getNumPassengers();
 		while (elevator.passengersToGetOff()) {
 			Passengers passengers = elevator.offload();
 			logArrival(time, passengers.getNumPass(), passengers.getDestFloor(), passengers.getId());
 		}
-		offloadedPassengers -= elevator.getNumPassengers();
-		if (offloadedPassengers > 0)
-			elevator.addDelay(offloadedPassengers);
-		elevator.updateDelay();
-		if (elevator.getDelay() == 0) {
+		elevator.updateDelay(false);
+		if (elevator.delayIsOver()) {
 			if (elevator.passengersToBoard(floors[elevator.getCurrFloor()]))
 				return Elevator.BOARD;
 			return Elevator.CLOSEDR;
@@ -187,16 +183,12 @@ public class Building {
 	}
 	
 	private int currStateBoard(int time) {
-		int boardedPassengers = 0 - elevator.getNumPassengers();
 		while(elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			Passengers passengers = elevator.board(floors[elevator.getCurrFloor()]);
 			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 		}
-		boardedPassengers += elevator.getNumPassengers();
-		if (boardedPassengers > 0)
-			elevator.addDelay(boardedPassengers);
-		elevator.updateDelay();
-		if (elevator.getDelay() == 0) {
+		elevator.updateDelay(true);
+		if (elevator.delayIsOver()) {
 			return Elevator.CLOSEDR;
 		}
 		return Elevator.BOARD;

@@ -76,7 +76,10 @@ public class Elevator {
 	                            // or moving
 
     
-    private int passDelay;
+    private int passDelay = 0;
+    
+    private int boardedPassengers;
+    private int offloadedPassengers;
 
 	
 	/** The passengers. */
@@ -149,13 +152,16 @@ public class Elevator {
     		passengers = floor.removeDown();
     	}
     	this.passengers += passengers.getNumPass();
+    	boardedPassengers += passengers.getNumPass();
     	passByFloor[passengers.getDestFloor()].add(passengers);
+    	System.out.println(boardedPassengers);
     	return passengers;
     }
     
     Passengers offload() {
     	Passengers passengers = passByFloor[currFloor].remove(0);
     	this.passengers -= passengers.getNumPass();
+    	offloadedPassengers += passengers.getNumPass();
     	return passengers;
     }
     
@@ -326,12 +332,17 @@ public class Elevator {
 		return passDelay;
 	}
 	
-	void addDelay(int passengers) {
-		passDelay = (passengers + passPerTick - 1) / passPerTick;
+	boolean delayIsOver() {
+		if (passDelay == timeInState) {
+			offloadedPassengers = 0;
+			boardedPassengers = 0;
+			return true;
+		}
+		return false;
 	}
 	
-	void updateDelay() {
-		passDelay--;
+	void updateDelay(boolean boarding) {
+		passDelay = ((boarding ? boardedPassengers : offloadedPassengers) + passPerTick - 1) / passPerTick;
 	}
 	
 	void updateDoor() {
