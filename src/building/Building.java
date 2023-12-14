@@ -94,7 +94,6 @@ public class Building {
 	// TODO: Place all of your code HERE - state methods and helpers...
 	
 	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
-		System.out.println(passengerList.size());
 		for (Passengers passengers : passengerList) {
 			logCalls(passengers.getTime(), passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 			floors[passengers.getOnFloor()].addPassengers(passengers);
@@ -124,6 +123,7 @@ public class Building {
 	
 	/** Implement the state methods here */
 	private int currStateStop(int time) {
+		callMgr.updateCallStatus();
 		if (callMgr.callPending()) {
 			int currFloor = elevator.getCurrFloor();
 			Passengers passengers = callMgr.prioritizePassengerCalls(currFloor);
@@ -154,8 +154,9 @@ public class Building {
 	}
 		
 	private int currStateOpenDr(int time) {
+		elevator.updateFloor();
 		elevator.updateDoor();
-		if (elevator.getDoorState() == Elevator.OPEN) {
+		if (elevator.getDoorState() == elevator.getTicksDoorOpenClose()) {
 			if (elevator.passengersToGetOff()) {
 				return Elevator.OFFLD;
 			}
@@ -168,18 +169,34 @@ public class Building {
 	}
 	
 	private int currStateOffLd(int time) {
-		return Elevator.STOP;
+		int offloadedPassengers = elevator.getNumPassengers();
+		while (elevator.passengersToGetOff()) {
+			Passengers passengers = elevator.offload();
+			logArrival(time, passengers.getNumPass(), passengers.getDestFloor(), passengers.getId());
+		}
+		offloadedPassengers -= elevator.getNumPassengers();
+		if (offloadedPassengers > 0)
+			elevator.addDelay(offloadedPassengers);
+		elevator.updateDelay();
+		if (elevator.getDelay() == 0) {
+			if (elevator.passengersToBoard(floors[elevator.getCurrFloor()]))
+				return Elevator.BOARD;
+			return Elevator.CLOSEDR;
+		}
+		return Elevator.OFFLD;
 	}
 	
 	private int currStateBoard(int time) {
-		int boardedPassengers = 0;
+		int boardedPassengers = 0 - elevator.getNumPassengers();
 		while(elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
-			boardedPassengers -= elevator.getNumPassengers();
-			elevator.board(floors[elevator.getCurrFloor()]);
-			boardedPassengers += elevator.getNumPassengers();
+			Passengers passengers = elevator.board(floors[elevator.getCurrFloor()]);
+			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 		}
-		elevator.addBoardDelay(boardedPassengers);
-		if (elevator.getBoardDelay() == 0) {
+		boardedPassengers += elevator.getNumPassengers();
+		if (boardedPassengers > 0)
+			elevator.addDelay(boardedPassengers);
+		elevator.updateDelay();
+		if (elevator.getDelay() == 0) {
 			return Elevator.CLOSEDR;
 		}
 		return Elevator.BOARD;
@@ -187,12 +204,13 @@ public class Building {
 	
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
-		if (elevator.getDoorState() == Elevator.CLOSED) {
+		if (elevator.getDoorState() == 0) {
 			//OPENDR
+			callMgr.updateCallStatus();
 			if (elevator.isEmpty() && !callMgr.callPending()) {
 				return Elevator.STOP;
 			}
-			//MV1FLR
+			return Elevator.MV1FLR;
 		}
 		return Elevator.CLOSEDR;
 	}

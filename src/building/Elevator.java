@@ -74,13 +74,9 @@ public class Elevator {
 	/** The door state. */
                             	private int doorState;      // used to model the state of the doors - OPEN, CLOSED
 	                            // or moving
-    public final static int OPEN = 0;
+
     
-    public final static int CLOSED = 1;
-    
-    public final static int MOVING = 2;
-    
-    private int boardDelay;
+    private int passDelay;
 
 	
 	/** The passengers. */
@@ -130,6 +126,8 @@ public class Elevator {
     	return true;
     }
     
+
+    
     boolean passengersToBoard(Floor floor) {
     	if (direction == Building.UP) {
     		if (!(floor.peekUp() == null) && floor.peekUp().getNumPass() <= capacity - passengers) {
@@ -143,7 +141,7 @@ public class Elevator {
     	return false;
     }
     
-    void board(Floor floor) {
+    Passengers board(Floor floor) {
     	Passengers passengers;
     	if (direction == Building.UP) {
     		passengers = floor.removeUp();
@@ -152,6 +150,13 @@ public class Elevator {
     	}
     	this.passengers += passengers.getNumPass();
     	passByFloor[passengers.getDestFloor()].add(passengers);
+    	return passengers;
+    }
+    
+    Passengers offload() {
+    	Passengers passengers = passByFloor[currFloor].remove(0);
+    	this.passengers -= passengers.getNumPass();
+    	return passengers;
     }
     
 
@@ -174,16 +179,12 @@ public class Elevator {
 	}
 	
 	/**
-	 * Gets the capacity.
+	 * Gets the num of passengers.
 	 *
-	 * @return the capacity
+	 * @return the passengers
 	 */
 	int getNumPassengers() {
-		int num = 0;
-		for (ArrayList<Passengers> passengerList : passByFloor) {
-			num += passengerList.size();
-		}
-		return num;
+		return passengers;
 	}
 
 	/**
@@ -321,44 +322,34 @@ public class Elevator {
 		return passengers == 0;
 	}
 	
-	int getBoardDelay() {
-		return boardDelay;
+	int getDelay() {
+		return passDelay;
 	}
 	
-	void addBoardDelay(int boardedPassengers) {
-		if (boardedPassengers == 0) {
-			if (timeInState == boardDelay) {
-				boardDelay = 0;
-			}
-		}
-		boardDelay += boardedPassengers / passPerTick;
-		if (boardedPassengers % passPerTick != 0) {
-			boardDelay++;
-		}
+	void addDelay(int passengers) {
+		passDelay = (passengers + passPerTick - 1) / passPerTick;
 	}
 	
-	
+	void updateDelay() {
+		passDelay--;
+	}
 	
 	void updateDoor() {
-		if (currState == OPENDR || currState == CLOSEDR) {
-			if (timeInState % ticksDoorOpenClose == 0) {
-				if (currState == OPENDR)
-					doorState = OPEN;
-				if (currState == CLOSEDR)
-					doorState = CLOSED;
-			}
-			doorState = MOVING;
-		}
+		if (currState == OPENDR)
+			doorState++;
+		if (currState == CLOSEDR)
+			doorState--;
 	}
 
 	
 	void updateFloor() {
+		prevFloor = currFloor;
 		if (currState == MVTOFLR || currState == MV1FLR) {
 			if (timeInState % ticksPerFloor == 0) {
-				prevFloor = currFloor;
 				currFloor += direction;
 			}
 		}
+		
 	}
 	
 
