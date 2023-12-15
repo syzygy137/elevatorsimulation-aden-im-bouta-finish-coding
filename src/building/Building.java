@@ -148,7 +148,7 @@ public class Building {
 		elevator.updateFloor();
 		if (elevator.getCurrFloor() == elevator.getMoveToFloor()) {
 			elevator.setDirection(elevator.getPostMoveToFloorDir());
-			return Elevator.STOP;
+			return Elevator.OPENDR;
 		}
 		return Elevator.MVTOFLR;
 	}

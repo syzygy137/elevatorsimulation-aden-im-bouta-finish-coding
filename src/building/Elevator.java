@@ -154,7 +154,6 @@ public class Elevator {
     	this.passengers += passengers.getNumPass();
     	boardedPassengers += passengers.getNumPass();
     	passByFloor[passengers.getDestFloor()].add(passengers);
-    	System.out.println(boardedPassengers);
     	return passengers;
     }
     
