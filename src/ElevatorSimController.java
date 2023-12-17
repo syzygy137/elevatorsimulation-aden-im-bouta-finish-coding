@@ -70,6 +70,8 @@ public class ElevatorSimController {
 	/**  The size of the queue to store Passengers at the start of the simulation. */
 	private final int PASSENGERS_QSIZE = 1000;	
 	
+	private final int buildingPassengersIndex = 3;
+	
 	/**
 	 * Instantiates a new elevator sim controller. 
 	 * Reads the configuration file to configure the building and
@@ -96,10 +98,10 @@ public class ElevatorSimController {
 	
 	//TODO: Write methods to update the GUI display
 	//      Needs to cover the Elevator state, Elevator passengers
-	/**
-	 * Controller updates the gui.
-	 */
 	//      and queues for each floor, as well as the current time
+	/**
+	 * Controller updates the gui every step by getting values from building
+	 */
 	private void controllerUpdatesTheGui() {
 		if (gui == null)
 			return;
@@ -108,7 +110,7 @@ public class ElevatorSimController {
 		// floor 6 at 1
 		elevatorY = NUM_FLOORS - (elevatorY + 1); // inverts
 		elevatorY = elevatorY * 2 + 1; //adjusts to scale
-		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[3], building.getWaitingPassengers(), stepCnt);
+		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[buildingPassengersIndex], building.getWaitingPassengers(), stepCnt);
 	}
 	
 	/**
