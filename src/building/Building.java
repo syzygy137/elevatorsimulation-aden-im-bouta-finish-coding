@@ -176,6 +176,7 @@ public class Building {
 		}
 		elevator.updateDelay(false);
 		if (elevator.delayIsOver()) {
+			changeDirection();
 			if (elevator.passengersToBoard(floors[elevator.getCurrFloor()]))
 				return Elevator.BOARD;
 			return Elevator.CLOSEDR;
@@ -184,8 +185,6 @@ public class Building {
 	}
 	
 	private int currStateBoard(int time) {
-		if (elevator.getNumPassengers() == 0)
-			elevator.setDirection(callMgr.prioritizePassengerCalls(elevator.getCurrFloor()).getDirection());
 		while(elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			Passengers passengers = elevator.board(floors[elevator.getCurrFloor()]);
 			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
@@ -205,7 +204,7 @@ public class Building {
 			if (elevator.isEmpty()) {
 				if (!callMgr.callPending())
 					return Elevator.STOP;
-				elevator.setDirection(callMgr.prioritizePassengerCalls(elevator.getCurrFloor()).getOnFloor() > elevator.getCurrFloor() ? UP : DOWN);
+				changeDirection();
 			}
 			return Elevator.MV1FLR;
 		}
@@ -214,10 +213,35 @@ public class Building {
 	
 	private int currStateMv1Flr(int time) {
 		elevator.updateFloor();
+		changeDirection();
 		if (elevator.passengersToGetOff() || elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			return Elevator.OPENDR;
 		}
 		return Elevator.MV1FLR;
+	}
+	
+	private void changeDirection() {
+		callMgr.updateCallStatus();
+		if (elevator.getNumPassengers() == 0) {
+			Floor floor = floors[elevator.getCurrFloor()];
+			if (elevator.getDirection() == UP) {
+				if (!callMgr.callsAboveFloor(elevator.getCurrFloor())) {
+					if (elevator.getCurrState() == Elevator.OFFLD || elevator.getCurrState() == Elevator.MV1FLR)
+						if (floor.peekDown() != null)
+							elevator.setDirection(DOWN);
+					if (elevator.getCurrState() == Elevator.CLOSEDR && callMgr.callPending())
+						elevator.setDirection(DOWN);
+				}
+			} else {
+				if (!callMgr.callsBelowFloor(elevator.getCurrFloor())) {
+					if (elevator.getCurrState() == Elevator.OFFLD || elevator.getCurrState() == Elevator.MV1FLR)
+						if (floor.peekUp() != null)
+							elevator.setDirection(UP);
+					if (elevator.getCurrState() == Elevator.CLOSEDR && callMgr.callPending())
+						elevator.setDirection(UP);
+				}
+			}
+		}
 	}
 	
 

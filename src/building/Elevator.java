@@ -134,8 +134,7 @@ public class Elevator {
     boolean passengersToBoard(Floor floor) {
     	if (currState == MVTOFLR && currFloor == moveToFloor)
     		return true;
-    	if (passengers == 0) 
-    		return !floor.isEmpty();
+
     	if (direction == Building.UP) {
     		if (!(floor.peekUp() == null) && floor.peekUp().getNumPass() <= capacity - passengers) {
     			return true;

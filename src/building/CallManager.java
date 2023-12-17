@@ -144,6 +144,24 @@ public class CallManager {
 		return count;
 	}
 	
+	public boolean callsAboveFloor(int floor) {
+		for (int i = floor + 1; i < NUM_FLOORS; i++) {
+			if (upCalls[i] || downCalls[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean callsBelowFloor(int floor) {
+		for (int i = floor - 1; i >= 0; i--) {
+			if (upCalls[i] || downCalls[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	private int numUpCalls() {
 		int count = 0;
