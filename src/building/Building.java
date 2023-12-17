@@ -148,6 +148,7 @@ public class Building {
 		elevator.updateFloor();
 		if (elevator.getCurrFloor() == elevator.getMoveToFloor()) {
 			elevator.setDirection(elevator.getPostMoveToFloorDir());
+			System.out.println(elevator.getDirection());
 			return Elevator.OPENDR;
 		}
 		return Elevator.MVTOFLR;
@@ -183,6 +184,8 @@ public class Building {
 	}
 	
 	private int currStateBoard(int time) {
+		if (elevator.getNumPassengers() == 0)
+			elevator.setDirection(callMgr.prioritizePassengerCalls(elevator.getCurrFloor()).getDirection());
 		while(elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			Passengers passengers = elevator.board(floors[elevator.getCurrFloor()]);
 			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
@@ -199,8 +202,10 @@ public class Building {
 		if (elevator.getDoorState() == 0) {
 			//OPENDR
 			callMgr.updateCallStatus();
-			if (elevator.isEmpty() && !callMgr.callPending()) {
-				return Elevator.STOP;
+			if (elevator.isEmpty()) {
+				if (!callMgr.callPending())
+					return Elevator.STOP;
+				elevator.setDirection(callMgr.prioritizePassengerCalls(elevator.getCurrFloor()).getOnFloor() > elevator.getCurrFloor() ? UP : DOWN);
 			}
 			return Elevator.MV1FLR;
 		}
@@ -209,7 +214,7 @@ public class Building {
 	
 	private int currStateMv1Flr(int time) {
 		elevator.updateFloor();
-		if (elevator.passengersToGetOff()) {
+		if (elevator.passengersToGetOff() || elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			return Elevator.OPENDR;
 		}
 		return Elevator.MV1FLR;

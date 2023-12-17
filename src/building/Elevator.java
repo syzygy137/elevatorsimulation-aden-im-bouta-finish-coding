@@ -132,6 +132,10 @@ public class Elevator {
 
     
     boolean passengersToBoard(Floor floor) {
+    	if (currState == MVTOFLR && currFloor == moveToFloor)
+    		return true;
+    	if (passengers == 0) 
+    		return !floor.isEmpty();
     	if (direction == Building.UP) {
     		if (!(floor.peekUp() == null) && floor.peekUp().getNumPass() <= capacity - passengers) {
     			return true;
@@ -297,7 +301,7 @@ public class Elevator {
 	 * @return void
 	 */
 	void setPostMoveToFloorDir(int postMoveToFloorDir) {
-		this.postMoveToFloorDir = moveToFloor;
+		this.postMoveToFloorDir = postMoveToFloorDir;
 	}
 	
 	/**
@@ -357,6 +361,7 @@ public class Elevator {
 		if (currState == MVTOFLR || currState == MV1FLR) {
 			if (timeInState % ticksPerFloor == 0) {
 				currFloor += direction;
+				
 			}
 		}
 		
