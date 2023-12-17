@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import building.Elevator;
 import javafx.animation.Animation;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -38,6 +39,8 @@ public class ElevatorSimulation extends Application {
 	
 	/**  Instantiate the GUI fields. */
 	private ElevatorSimController controller;
+	
+	/** The num floors. */
 	private final int NUM_FLOORS;
 	
 	/**  you MUST use millisPerTick as the duration for your timeline. */
@@ -54,7 +57,6 @@ public class ElevatorSimulation extends Application {
 	
 	private BorderPane main;
 	private GridPane gp;
-	
 	private final static Logger LOGGER = Logger.getLogger(ElevatorSimulation.class.getName());
 	private Timeline t;
 	private String defualtLogStyle = "";
@@ -82,7 +84,6 @@ public class ElevatorSimulation extends Application {
 	private Line g4 = new Line(0, 0, 650, 0);
 	private Line g5 = new Line(0, 0, 650, 0);
 	private Line g6 = new Line(0, 0, 650, 0);
-	
 	// Passengers
 	private HBox[] passPane = new HBox[12];
 	
@@ -170,7 +171,7 @@ public class ElevatorSimulation extends Application {
 		TextField stepBox = new TextField("1");
 		Button logger = new Button("Logger");
 		logger.setOnAction(e -> controller.enableLogging());
-		run.setOnAction(e -> {t.setCycleCount(Animation.INDEFINITE); t.play(); System.out.println("Run");});
+		run.setOnAction(e -> toggleRun());
 		step1.setOnAction(e -> stepTick(1));
 		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
         buttonBox.getChildren().addAll(run, step1, step2, stepBox, logger, tickTxt);
@@ -221,7 +222,7 @@ public class ElevatorSimulation extends Application {
 	}
 	
 	/**
-	 * Steps forward the controller the set number of ticks
+	 * Steps forward the controller the set number of ticks.
 	 *
 	 * @param numTicks the number of ticks stepped forward
 	 */
@@ -233,25 +234,36 @@ public class ElevatorSimulation extends Application {
 	}
 	
 	/**
-	 * Initializes the timeline to step the simulation based on millisPerTick
+	 * Initializes the timeline to step the simulation based on millisPerTick.
 	 */
 	private void initTimeline() {
 		//TODO: Code this method
 		t = new Timeline(new KeyFrame(Duration.millis(millisPerTick), e -> controller.stepSim()));
-		//t.setCycleCount(Animation.INDEFINITE);
-		System.out.println("initTimeline");
 	}
 	
 	/**
-	 * Stops the timeline
+	 * Stops the timeline.
 	 */
 	public void endSimulation() {
 		t.pause();
-		System.out.println("endSimulation");
+	}
+	
+	
+	/**
+	 * Toggles run off and on based on previous state
+	 */
+	private void toggleRun() {
+		if (t.getStatus().equals(Status.RUNNING)) {
+			t.pause();
+		}
+		else {
+			t.setCycleCount(Animation.INDEFINITE);
+			t.play();
+		}
 	}
 	
 	/**
-	 * Updates all parts of GUI every tick based on data passed through controller
+	 * Updates all parts of GUI every tick based on data passed through controller.
 	 *
 	 * @param currState the current state of the elevator
 	 * @param currentDir the current direction of the elevator
