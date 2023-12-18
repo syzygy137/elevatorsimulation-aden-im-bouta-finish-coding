@@ -260,7 +260,7 @@ public class ElevatorSimController {
 		//		2) close the logs
 		//		3) process the passenger results
 		//		4) send endSimulation to the GUI to stop ticks.
-		if (!endSim || (building.getElevatorState()[0] != 0 && building.getElevatorState()[1] != 0)) {
+		if (!endSim || !allInStopState()) {
 			checkPassQueue();
 			building.updateElevator(stepCnt);
 			controllerUpdatesTheGui();
@@ -292,6 +292,10 @@ public class ElevatorSimController {
 			}
 		}
 		building.addPassengersToQueue(newPassengers);
+	}
+	
+	private boolean allInStopState() {
+		return (building.getElevatorState()[0] == 0 && building.getElevatorState()[4] == 0);
 	}
 
 	/**
