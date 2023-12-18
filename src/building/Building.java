@@ -198,12 +198,13 @@ public class Building {
 	
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
+		if (elevator.getDoorState() == 0)
+			changeDirection();
 		if (elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			return Elevator.OPENDR;
 		}
 		if (elevator.getDoorState() == 0) {
 			callMgr.updateCallStatus();
-			changeDirection();
 			if (elevator.isEmpty()) {
 				if (!callMgr.callPending())
 					return Elevator.STOP;
