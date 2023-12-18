@@ -198,9 +198,11 @@ public class Building {
 	
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
+		System.out.println("Dr: " + elevator.getDirection());
 		if (elevator.getDoorState() == 0)
 			changeDirection();
-		if (elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
+		if (elevator.passengersToBoard(floors[elevator.getCurrFloor()]) && elevator.getDoorState() == 0) {
+			System.out.println("Opening dr: " + elevator.getDirection());
 			return Elevator.OPENDR;
 		}
 		if (elevator.getDoorState() == 0) {
@@ -228,7 +230,7 @@ public class Building {
 		if (elevator.getNumPassengers() == 0) {
 			Floor floor = floors[elevator.getCurrFloor()];
 			if (elevator.getDirection() == UP) {
-				if (!callMgr.callsAboveFloor(elevator.getCurrFloor())) {
+				if (!(callMgr.callsAboveFloor(elevator.getCurrFloor()) || floor.peekUp() != null)) {
 					if (elevator.getCurrState() == Elevator.OFFLD || elevator.getCurrState() == Elevator.MV1FLR)
 						if (floor.peekDown() != null)
 							elevator.setDirection(DOWN);
