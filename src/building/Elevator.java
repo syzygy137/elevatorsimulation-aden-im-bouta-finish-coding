@@ -120,6 +120,7 @@ public class Elevator {
 		//      initialization of any other private fields, etc.
 		
 		passengers = 0;
+		doorState = 0;
 	}
                                 	
     boolean passengersToGetOff() {
@@ -348,10 +349,12 @@ public class Elevator {
 	}
 	
 	void updateDoor() {
+		System.out.print("State: " + currState + " From: " + doorState);
 		if (currState == OPENDR)
 			doorState++;
 		if (currState == CLOSEDR)
 			doorState--;
+		System.out.println(", To: " + doorState);
 	}
 
 	
