@@ -198,9 +198,7 @@ public class Building {
 	
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
-		if (elevator.getDoorState() == 0)
-			changeDirection();
-		if (shouldOpenDrCloseDr()) {
+		if (elevator.getDoorState() == 0 && shouldOpenDrCloseDr(changeDirection())) {
 			return Elevator.OPENDR;
 		}
 		if (elevator.getDoorState() == 0) {
@@ -223,19 +221,21 @@ public class Building {
 		return Elevator.MV1FLR;
 	}
 	
-	private boolean shouldOpenDrCloseDr() {
-		if (elevator.passengersToBoard(floors[elevator.getCurrFloor()]) && elevator.getDoorState() == 0) {
-			
+	private boolean shouldOpenDrCloseDr(boolean dirChange) {
+		if (elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
+			Floor floor = floors[elevator.getCurrFloor()];
 			if ((elevator.getDirection() == 1) ? 
-					!callMgr.callsAboveFloor(elevator.getCurrFloor()) : !callMgr.callsBelowFloor(elevator.getCurrFloor())) {
+					floor.peekUp() != null && (dirChange || !callMgr.callsAboveFloor(elevator.getCurrFloor())): 
+						floor.peekDown() != null && (dirChange || !callMgr.callsBelowFloor(elevator.getCurrFloor()))) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	private void changeDirection() {
+	private boolean changeDirection() {
 		callMgr.updateCallStatus();
+		int dir = elevator.getDirection();
 		if (elevator.getNumPassengers() == 0) {
 			Floor floor = floors[elevator.getCurrFloor()];
 			if (elevator.getDirection() == UP) {
@@ -251,11 +251,13 @@ public class Building {
 					if (elevator.getCurrState() == Elevator.OFFLD || elevator.getCurrState() == Elevator.MV1FLR)
 						if (floor.peekUp() != null)
 							elevator.setDirection(UP);
-					if (elevator.getCurrState() == Elevator.CLOSEDR && callMgr.callPending())
+					if (elevator.getCurrState() == Elevator.CLOSEDR && callMgr.callPending()) {
 						elevator.setDirection(UP);
+					}
 				}
 			}
 		}
+		return dir != elevator.getDirection();
 	}
 	
 

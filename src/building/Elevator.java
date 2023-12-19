@@ -349,12 +349,10 @@ public class Elevator {
 	}
 	
 	void updateDoor() {
-		System.out.print("State: " + currState + " From: " + doorState);
 		if (currState == OPENDR)
 			doorState++;
 		if (currState == CLOSEDR)
 			doorState--;
-		System.out.println(", To: " + doorState);
 	}
 
 	
