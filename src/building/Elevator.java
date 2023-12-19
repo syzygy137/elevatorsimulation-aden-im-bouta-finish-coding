@@ -363,10 +363,8 @@ public class Elevator {
 		if (currState == MVTOFLR || currState == MV1FLR) {
 			if (timeInState % ticksPerFloor == 0) {
 				currFloor += direction;
-				
 			}
 		}
-		
 	}
 	
 
@@ -386,4 +384,12 @@ public class Elevator {
 			timeInState = 1;
 		}
 	}
+	
+	boolean atFloor() {
+		if (timeInState % ticksPerFloor == 0) {
+			return true;
+		}
+		return false;
+	}
+	
 }
