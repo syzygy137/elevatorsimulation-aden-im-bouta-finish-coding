@@ -80,6 +80,8 @@ public class Elevator {
     
     private int boardedPassengers;
     private int offloadedPassengers;
+    
+    private boolean skipped;
 
 	
 	/** The passengers. */
@@ -137,11 +139,11 @@ public class Elevator {
     		return true;
 
     	if (direction == Building.UP) {
-    		if (!(floor.peekUp() == null) && floor.peekUp().getNumPass() <= capacity - passengers) {
+    		if (!(floor.peekUp() == null) ) {
     			return true;
     		}
     	} else {
-    		if (!(floor.peekDown() == null) && floor.peekDown().getNumPass() <= capacity - passengers) {
+    		if (!(floor.peekDown() == null) ) {
     			return true;
     		}
     	}
@@ -149,12 +151,11 @@ public class Elevator {
     }
     
     Passengers board(Floor floor) {
-    	Passengers passengers;
-    	if (direction == Building.UP) {
-    		passengers = floor.removeUp();
-    	} else {
-    		passengers = floor.removeDown();
+    	Passengers passengers = (direction == Building.UP) ? floor.peekUp() : floor.peekDown();
+    	if (passengers.getNumPass() > capacity - this.passengers) {
+    		return null;
     	}
+    	Passengers temp = (direction == Building.UP) ? floor.removeUp() : floor.removeDown();
     	this.passengers += passengers.getNumPass();
     	boardedPassengers += passengers.getNumPass();
     	passByFloor[passengers.getDestFloor()].add(passengers);
@@ -336,9 +337,10 @@ public class Elevator {
 	}
 	
 	boolean delayIsOver() {
-		if (passDelay == timeInState) {
+		if (passDelay <= timeInState) {
 			offloadedPassengers = 0;
 			boardedPassengers = 0;
+			passDelay = 0;
 			return true;
 		}
 		return false;
@@ -384,10 +386,19 @@ public class Elevator {
 	}
 	
 	boolean atFloor() {
-		if (timeInState % ticksPerFloor == 0) {
-			return true;
-		}
-		return false;
+		return timeInState % ticksPerFloor == 0;
+	}
+	
+	boolean canFit(Passengers passengers) {
+		return passengers.getNumPass() < capacity - this.passengers;
+	}
+	
+	boolean hasSkipped() {
+		return skipped;
+	}
+	
+	void skipped(boolean skipped) {
+		this.skipped = skipped;
 	}
 	
 }
