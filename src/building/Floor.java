@@ -21,6 +21,11 @@ public class Floor {
 	private GenericQueue<Passengers> down;
 	private GenericQueue<Passengers> up;
 
+	/**
+	 * Instantiates a new floor.
+	 *
+	 * @param qSize the q size
+	 */
 	public Floor(int qSize) {
 		down = new GenericQueue<Passengers>(qSize);
 		up = new GenericQueue<Passengers>(qSize);
@@ -30,6 +35,11 @@ public class Floor {
 	// You probably will only be accessing one queue at any
 	// given time based upon direction - you could choose to 
 	// account for this in your methods.
+	/**
+	 * Adds the passengers.
+	 *
+	 * @param passengers the passengers
+	 */
 	public void addPassengers(Passengers passengers) {
 		if (passengers.getDirection() == UP) {
 			up.add(passengers);
@@ -38,6 +48,12 @@ public class Floor {
 		}
 	}
 	
+	/**
+	 * Gets all passengers.
+	 *
+	 * @param getUp the get up
+	 * @return the array list
+	 */
 	public ArrayList<Integer> allPassengers(boolean getUp) {
 		GenericQueue<Passengers> queue;
 		if (getUp) {
@@ -59,23 +75,48 @@ public class Floor {
 	}
 	
 	
+	/**
+	 * Peeks the up queue
+	 *
+	 * @return the passengers
+	 */
 	public Passengers peekUp() {
 		return up.peek();
 	}
 	
+	/**
+	 * Peeks the down queue
+	 *
+	 * @return the passengers
+	 */
 	public Passengers peekDown() {
 		return down.peek();
 	}
 	
+	/**
+	 * Removes the first person in up
+	 *
+	 * @return the passengers
+	 */
 	public Passengers removeUp() {
 		return up.remove();
 	}
 	
+	/**
+	 * Removes the first person in down
+	 *
+	 * @return the passengers
+	 */
 	public Passengers removeDown() {
 		return down.remove();
 	}
 	
 	
+	/**
+	 * Checks if is empty.
+	 *
+	 * @return true, if is empty
+	 */
 	public boolean isEmpty() {
 		return up.peek() == null && down.peek() == null;
 	}

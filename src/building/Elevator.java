@@ -97,15 +97,15 @@ public class Elevator {
 	                                // the moveToFloor in MVTOFLR state.
 
 	/**
-                                	 * Instantiates a new elevator.
-                                	 *
-                                	 * @param numFloors the num floors
-                                	 * @param capacity the capacity
-                                	 * @param floorTicks the floor ticks
-                                	 * @param doorTicks the door ticks
-                                	 * @param passPerTick the pass per tick
-                                	 */
-                                	@SuppressWarnings("unchecked")
+	 * Instantiates a new elevator.
+	 *
+	 * @param numFloors the num floors
+	 * @param capacity the capacity
+	 * @param floorTicks the floor ticks
+	 * @param doorTicks the door ticks
+	 * @param passPerTick the pass per tick
+	 */
+    @SuppressWarnings("unchecked")
 	public Elevator(int numFloors,int capacity, int floorTicks, int doorTicks, int passPerTick) {		
 		this.prevState = STOP;
 		this.currState = STOP;
@@ -123,6 +123,11 @@ public class Elevator {
 		doorState = 0;
 	}
                                 	
+    /**
+     * Gets if any passengers to get off.
+     *
+     * @return true, if passengers
+     */
     boolean passengersToGetOff() {
     	if (passByFloor[currFloor].isEmpty()) {
     		return false;
@@ -132,6 +137,12 @@ public class Elevator {
     
 
     
+    /**
+     * Gets if passengers to board on a certain floor
+     *
+     * @param floor the floor
+     * @return true, if passengers
+     */
     boolean passengersToBoard(Floor floor) {
     	if (currState == MVTOFLR && currFloor == moveToFloor)
     		return true;
@@ -148,6 +159,12 @@ public class Elevator {
     	return false;
     }
     
+    /**
+     * Tells next passengers to board on a certain floor
+     *
+     * @param floor the floor
+     * @return the passengers
+     */
     Passengers board(Floor floor) {
     	Passengers passengers;
     	if (direction == Building.UP) {
@@ -161,6 +178,11 @@ public class Elevator {
     	return passengers;
     }
     
+    /**
+     * Offload passengers from elevator
+     *
+     * @return the passengers
+     */
     Passengers offload() {
     	Passengers passengers = passByFloor[currFloor].remove(0);
     	this.passengers -= passengers.getNumPass();
@@ -260,8 +282,9 @@ public class Elevator {
 	}
 	
 	/**
-	 * Sets the direction
+	 * Sets the direction.
 	 *
+	 * @param direction the new direction
 	 * @return void
 	 */
 	void setDirection(int direction) {
@@ -269,7 +292,7 @@ public class Elevator {
 	}
 	
 	/**
-	 * Gets the direction
+	 * Gets the direction.
 	 *
 	 * @return void
 	 */
@@ -278,8 +301,9 @@ public class Elevator {
 	}
 	
 	/**
-	 * Sets the floor to move to
+	 * Sets the floor to move to.
 	 *
+	 * @param moveToFloor the new move to floor
 	 * @return void
 	 */
 	void setMoveToFloor(int moveToFloor) {
@@ -287,7 +311,7 @@ public class Elevator {
 	}
 	
 	/**
-	 * Gets the floor to move to
+	 * Gets the floor to move to.
 	 *
 	 * @return int of the floor
 	 */
@@ -296,8 +320,9 @@ public class Elevator {
 	}
 	
 	/**
-	 * Sets the direction to go after reaching the floor
+	 * Sets the direction to go after reaching the floor.
 	 *
+	 * @param postMoveToFloorDir the new post move to floor dir
 	 * @return void
 	 */
 	void setPostMoveToFloorDir(int postMoveToFloorDir) {
@@ -305,7 +330,7 @@ public class Elevator {
 	}
 	
 	/**
-	 * Sets the direction to go after reaching the floor
+	 * Sets the direction to go after reaching the floor.
 	 *
 	 * @return int
 	 */
@@ -314,7 +339,7 @@ public class Elevator {
 	}
 	
 	/**
-	 * Gets the door state
+	 * Gets the door state.
 	 *
 	 * @return int
 	 */
@@ -323,7 +348,7 @@ public class Elevator {
 	}
 	
 	/**
-	 * Returns true if empty
+	 * Returns true if empty.
 	 *
 	 * @return boolean
 	 */
@@ -331,10 +356,20 @@ public class Elevator {
 		return passengers == 0;
 	}
 	
+	/**
+	 * Gets the delay.
+	 *
+	 * @return the delay
+	 */
 	int getDelay() {
 		return passDelay;
 	}
 	
+	/**
+	 * Checks if delay is over.
+	 *
+	 * @return true, if it is
+	 */
 	boolean delayIsOver() {
 		if (passDelay == timeInState) {
 			offloadedPassengers = 0;
@@ -344,10 +379,18 @@ public class Elevator {
 		return false;
 	}
 	
+	/**
+	 * Updates delay to elevator
+	 *
+	 * @param boarding the boarding
+	 */
 	void updateDelay(boolean boarding) {
 		passDelay = ((boarding ? boardedPassengers : offloadedPassengers) + passPerTick - 1) / passPerTick;
 	}
 	
+	/**
+	 * Update door.
+	 */
 	void updateDoor() {
 		System.out.print("State: " + currState + " From: " + doorState);
 		if (currState == OPENDR)
@@ -358,6 +401,9 @@ public class Elevator {
 	}
 
 	
+	/**
+	 * Update floor.
+	 */
 	void updateFloor() {
 		prevFloor = currFloor;
 		if (currState == MVTOFLR || currState == MV1FLR) {
