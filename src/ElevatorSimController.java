@@ -260,17 +260,17 @@ public class ElevatorSimController {
 		//		2) close the logs
 		//		3) process the passenger results
 		//		4) send endSimulation to the GUI to stop ticks.
-		if (!endSim || !allInStopState()) {
+		if (!passQ.isEmpty() || !allInStopState()) {
 			checkPassQueue();
 			building.updateElevator(stepCnt);
 			controllerUpdatesTheGui();
 		}
 		else {
+			System.out.println("Ended the simulation!!!");
 			controllerUpdatesTheGui();
-			building.closeLogs(NUM_FLOORS);
+			building.closeLogs(stepCnt);
 			building.processPassengerData();
-			if (!gui.equals(null)) gui.endSimulation();
-			
+			if (gui != null) gui.endSimulation();
 		}
 	}
 	
