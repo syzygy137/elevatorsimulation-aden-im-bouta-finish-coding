@@ -100,7 +100,7 @@ public class CallManager {
 				return findFirstFloor(false);
 			}
 			else {
-				return findFirstFloor(true);
+				return findClosestFloor(floor);
 			}
 		}
 	}
@@ -121,6 +121,7 @@ public class CallManager {
 	private boolean onlyDownCalls(int floor) {
 		return (floors[floor].peekUp() == null && floors[floor].peekDown() != null);
 	}
+	
 	
 	private int numUpCallsAboveFloor(int floor) {
 		int count = 0;
@@ -197,6 +198,30 @@ public class CallManager {
 			}
 		}
 		return null;
+	}
+	
+	private Passengers findClosestFloor(int curFloor) {
+		int lowestUpCall = 0, highestDownCall = 0;
+		for (int i = 0; i < NUM_FLOORS; i++) {
+			if (downCalls[i]) {
+				highestDownCall = i;
+			}
+		}
+		for (int i = NUM_FLOORS - 1; i >= 0; i--) {
+			if (upCalls[i]) {
+				lowestUpCall = i;
+			}
+		} 
+		if ((highestDownCall-curFloor) < (curFloor-lowestUpCall)) {
+			System.out.println("went to highest down call");
+			return floors[highestDownCall].peekDown();
+		}
+		else if ((highestDownCall-curFloor) > (curFloor-lowestUpCall)) {
+			return floors[lowestUpCall].peekUp();
+		}
+		else {
+			return floors[lowestUpCall].peekUp();
+		}
 	}
 
 	/**
