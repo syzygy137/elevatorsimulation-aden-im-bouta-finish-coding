@@ -70,6 +70,7 @@ public class ElevatorSimController {
 	/**  The size of the queue to store Passengers at the start of the simulation. */
 	private final int PASSENGERS_QSIZE = 1000;	
 	
+	/** The building passengers index. */
 	private final int buildingPassengersIndex = 3;
 	
 	/**
@@ -100,7 +101,7 @@ public class ElevatorSimController {
 	//      Needs to cover the Elevator state, Elevator passengers
 	//      and queues for each floor, as well as the current time
 	/**
-	 * Controller updates the gui every step by getting values from building
+	 * Controller updates the gui every step by getting values from building.
 	 */
 	private void controllerUpdatesTheGui() {
 		if (gui == null)
@@ -264,14 +265,12 @@ public class ElevatorSimController {
 			checkPassQueue();
 			building.updateElevator(stepCnt);
 			controllerUpdatesTheGui();
-		}
-		else {
+		} else {
 			System.out.println("Ended the simulation!!!");
 			controllerUpdatesTheGui();
 			building.closeLogs(stepCnt);
 			building.processPassengerData();
 			if (gui != null) gui.endSimulation();
-			
 		}
 	}
 	
@@ -295,6 +294,13 @@ public class ElevatorSimController {
 		building.addPassengersToQueue(newPassengers);
 	}
 	
+	/**
+	 * Written by Dan
+	 * 
+	 * All in stop state.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean allInStopState() {
 		return (building.getElevatorState()[0] == 0 && building.getElevatorState()[4] == 0);
 	}
