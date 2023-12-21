@@ -58,12 +58,17 @@ public class Building {
 	private CallManager callMgr;
 	
 	// Add any fields that you think you might need here...
-
+	private final int stateConstant = 0;
+	private final int directionConstant = 1;
+	private final int floorConstant = 2;
+	private final int passengersConstant = 3;
+	private final int prevStateConstant = 4;
+	
+	
 	/**
 	 * Instantiates a new building.
 	 *
 	 * @param numFloors the num floors
-	 * @param numElevators the num elevators
 	 * @param logfile the logfile
 	 */
 	public Building(int numFloors, String logfile) {
@@ -87,12 +92,26 @@ public class Building {
 		
 	}
 	
+	/**
+	 * Config elevator.
+	 *
+	 * @param numFloors the num floors
+	 * @param capacity the capacity
+	 * @param floorTicks the floor ticks
+	 * @param doorTicks the door ticks
+	 * @param passPerTick the pass per tick
+	 */
 	public void configElevator(int numFloors,int capacity, int floorTicks, int doorTicks, int passPerTick) {
 		elevator = new Elevator(numFloors, capacity, floorTicks, doorTicks, passPerTick);
 	}
 		
 	// TODO: Place all of your code HERE - state methods and helpers...
 	
+	/**
+	 * Adds the passengers to queue.
+	 *
+	 * @param passengerList the passenger list
+	 */
 	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
 		for (Passengers passengers : passengerList) {
 			logCalls(passengers.getTime(), passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
@@ -121,7 +140,12 @@ public class Building {
 	}
 	
 	
-	/** Implement the state methods here */
+	/**
+	 *  Implement the state methods here.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateStop(int time) {
 		callMgr.updateCallStatus();
 		if (callMgr.callPending()) {
@@ -144,6 +168,12 @@ public class Building {
 		return Elevator.STOP;
 	}
 
+	/**
+	 * Curr state mv to flr.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateMvToFlr(int time) {
 		elevator.updateFloor();
 		if (elevator.getCurrFloor() == elevator.getMoveToFloor()) {
@@ -153,6 +183,12 @@ public class Building {
 		return Elevator.MVTOFLR;
 	}
 		
+	/**
+	 * Curr state open dr.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateOpenDr(int time) {
 		elevator.updateFloor();
 		elevator.updateDoor();
@@ -169,6 +205,12 @@ public class Building {
 		return Elevator.OPENDR;
 	}
 	
+	/**
+	 * Curr state off ld.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateOffLd(int time) {
 		while (elevator.passengersToGetOff()) {
 			Passengers passengers = elevator.offload();
@@ -186,6 +228,12 @@ public class Building {
 		return Elevator.OFFLD;
 	}
 	
+	/**
+	 * Curr state board.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateBoard(int time) {
 		Floor floor = floors[elevator.getCurrFloor()];
 		boolean skip = false;
@@ -209,6 +257,12 @@ public class Building {
 		return Elevator.BOARD;
 	}
 	
+	/**
+	 * Curr state close dr.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
 		if (elevator.getDoorState() == 0 && shouldOpenDrCloseDr(changeDirection())) {
@@ -226,6 +280,12 @@ public class Building {
 		return Elevator.CLOSEDR;
 	}
 	
+	/**
+	 * Curr state mv 1 flr.
+	 *
+	 * @param time the time
+	 * @return the int
+	 */
 	private int currStateMv1Flr(int time) {
 		elevator.updateFloor();
 		changeDirection();
@@ -237,6 +297,12 @@ public class Building {
 		return Elevator.MV1FLR;
 	}
 	
+	/**
+	 * Should open dr close dr.
+	 *
+	 * @param dirChange the dir change
+	 * @return true, if successful
+	 */
 	private boolean shouldOpenDrCloseDr(boolean dirChange) {
 		if (elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
 			Floor floor = floors[elevator.getCurrFloor()];
@@ -251,6 +317,11 @@ public class Building {
 		return false;
 	}
 	
+	/**
+	 * Change direction.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean changeDirection() {
 		callMgr.updateCallStatus();
 		int dir = elevator.getDirection();
@@ -280,7 +351,11 @@ public class Building {
 	
 
 	
-	//TODO: Write this method 
+	/**
+	 * Elevator state or floor changed.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean elevatorStateOrFloorChanged() {
 		return elevator.getPrevState() != elevator.getCurrState() || elevator.getPrevFloor() != elevator.getCurrFloor();
 	}
@@ -293,7 +368,6 @@ public class Building {
 	 *
 	 * @param time the time
 	 */
-	// YOU WILL NEED TO CODE ANY MISSING METHODS IN THE APPROPRIATE CLASSES...
 	public void updateElevator(int time) {
 		if (elevatorStateOrFloorChanged())
 			logElevatorStateOrFloorChanged(time,elevator.getPrevState(),elevator.getCurrState(),
@@ -312,24 +386,24 @@ public class Building {
 	}
 	
 	/**
-	 * Gives GUI the elevator
+	 * Gives GUI the elevator.
 	 *
-	 * @param void
+	 * @return the elevator state
 	 */
 	public int[] getElevatorState() {
-		int[] state = new int[5];
-		state[0] = elevator.getCurrState();
-		state[1] = elevator.getDirection();
-		state[2] = elevator.getCurrFloor();
-		state[3] = elevator.getNumPassengers();
-		state[4] = elevator.getPrevState();
+		int[] state = new int[prevStateConstant + 1];
+		state[stateConstant] = elevator.getCurrState();
+		state[directionConstant] = elevator.getDirection();
+		state[floorConstant] = elevator.getCurrFloor();
+		state[passengersConstant] = elevator.getNumPassengers();
+		state[prevStateConstant] = elevator.getPrevState();
 		return state;
 	}
 	
 	/**
-	 * Gives GUI the waiting passengers
+	 * Gives GUI the waiting passengers.
 	 *
-	 * @param void
+	 * @return the waiting passengers
 	 */
 	public ArrayList<Integer>[] getWaitingPassengers() {
 		ArrayList<Integer>[] allPassengers = new ArrayList[floors.length * 2];

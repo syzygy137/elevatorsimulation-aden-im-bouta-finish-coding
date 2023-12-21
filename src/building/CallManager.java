@@ -2,6 +2,7 @@ package building;
 
 import passengers.Passengers;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CallManager. This class models all of the calls on each floor,
  * and then provides methods that allow the building to determine what needs
@@ -52,6 +53,11 @@ public class CallManager {
 		//TODO: Initialize any added fields here
 	}
 	
+	/**
+	 * Checks call pending
+	 *
+	 * @return true, if successful
+	 */
 	public boolean callPending() {
 		return (numUpCalls() + numDownCalls() > 0);
 	}
@@ -114,15 +120,33 @@ public class CallManager {
 	//
 	//      These are an example - you may find you don't need some of these, or you may need more...
 	
+	/**
+	 * Checks if there is only up calls
+	 *
+	 * @param floor the floor
+	 * @return true, if successful
+	 */
 	private boolean onlyUpCalls(int floor) {
 		return (floors[floor].peekUp() != null && floors[floor].peekDown() == null);
 	}
 	
+	/**
+	 * Checks if there is only down calls
+	 *
+	 * @param floor the floor
+	 * @return true, if successful
+	 */
 	private boolean onlyDownCalls(int floor) {
 		return (floors[floor].peekUp() == null && floors[floor].peekDown() != null);
 	}
 	
 	
+	/**
+	 * Num up calls above floor.
+	 *
+	 * @param floor the floor
+	 * @return the int
+	 */
 	private int numUpCallsAboveFloor(int floor) {
 		int count = 0;
 		for (int i = floor; i < NUM_FLOORS; i++) {
@@ -134,6 +158,12 @@ public class CallManager {
 		return count;
 	}
 	
+	/**
+	 * Num down calls below floor.
+	 *
+	 * @param floor the floor
+	 * @return the int
+	 */
 	private int numDownCallsBelowFloor(int floor) {
 		int count = 0;
 		for (int i = floor; i >= 0; i--) {
@@ -145,6 +175,12 @@ public class CallManager {
 		return count;
 	}
 	
+	/**
+	 * Calls above floor.
+	 *
+	 * @param floor the floor
+	 * @return true, if successful
+	 */
 	public boolean callsAboveFloor(int floor) {
 		for (int i = floor + 1; i < NUM_FLOORS; i++) {
 			if (upCalls[i] || downCalls[i]) {
@@ -154,6 +190,12 @@ public class CallManager {
 		return false;
 	}
 	
+	/**
+	 * Calls below floor.
+	 *
+	 * @param floor the floor
+	 * @return true, if successful
+	 */
 	public boolean callsBelowFloor(int floor) {
 		for (int i = floor - 1; i >= 0; i--) {
 			if (upCalls[i] || downCalls[i]) {
@@ -164,6 +206,11 @@ public class CallManager {
 	}
 	
 	
+	/**
+	 * Num up calls.
+	 *
+	 * @return the int
+	 */
 	private int numUpCalls() {
 		int count = 0;
 		for (int i = 0; i < NUM_FLOORS; i++) {
@@ -175,6 +222,11 @@ public class CallManager {
 		return count;
 	}
 	
+	/**
+	 * Num down calls.
+	 *
+	 * @return the int
+	 */
 	private int numDownCalls() {
 		int count = 0;
 		for (int i = 0; i < NUM_FLOORS; i++) {
@@ -186,6 +238,12 @@ public class CallManager {
 		return count;
 	}
 	
+	/**
+	 * Find first floor.
+	 *
+	 * @param goingUp the going up
+	 * @return the passengers
+	 */
 	private Passengers findFirstFloor(boolean goingUp) {
 		if (goingUp) {
 			for (int i = 0; i < NUM_FLOORS; i++) {
@@ -200,6 +258,12 @@ public class CallManager {
 		return null;
 	}
 	
+	/**
+	 * Find closest floor.
+	 *
+	 * @param curFloor the cur floor
+	 * @return the passengers
+	 */
 	private Passengers findClosestFloor(int curFloor) {
 		int lowestUpCall = 0, highestDownCall = 0;
 		for (int i = 0; i < NUM_FLOORS; i++) {
@@ -225,6 +289,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Gets the floors.
+	 *
 	 * @return the floors
 	 */
 	public Floor[] getFloors() {
@@ -232,6 +298,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Sets the floors.
+	 *
 	 * @param floors the floors to set
 	 */
 	public void setFloors(Floor[] floors) {
@@ -239,6 +307,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Gets the up calls.
+	 *
 	 * @return the upCalls
 	 */
 	public boolean[] getUpCalls() {
@@ -246,6 +316,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Sets the up calls.
+	 *
 	 * @param upCalls the upCalls to set
 	 */
 	public void setUpCalls(boolean[] upCalls) {
@@ -253,6 +325,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Gets the down calls.
+	 *
 	 * @return the downCalls
 	 */
 	public boolean[] getDownCalls() {
@@ -260,6 +334,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Sets the down calls.
+	 *
 	 * @param downCalls the downCalls to set
 	 */
 	public void setDownCalls(boolean[] downCalls) {
@@ -267,6 +343,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Checks if is up call pending.
+	 *
 	 * @return the upCallPending
 	 */
 	public boolean isUpCallPending() {
@@ -274,6 +352,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Sets the up call pending.
+	 *
 	 * @param upCallPending the upCallPending to set
 	 */
 	public void setUpCallPending(boolean upCallPending) {
@@ -281,6 +361,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Checks if is down call pending.
+	 *
 	 * @return the downCallPending
 	 */
 	public boolean isDownCallPending() {
@@ -288,6 +370,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Sets the down call pending.
+	 *
 	 * @param downCallPending the downCallPending to set
 	 */
 	public void setDownCallPending(boolean downCallPending) {
@@ -295,6 +379,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Gets the num floors.
+	 *
 	 * @return the nUM_FLOORS
 	 */
 	public int getNUM_FLOORS() {
@@ -302,6 +388,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Gets the up.
+	 *
 	 * @return the up
 	 */
 	public static int getUp() {
@@ -309,6 +397,8 @@ public class CallManager {
 	}
 
 	/**
+	 * Gets the down.
+	 *
 	 * @return the down
 	 */
 	public static int getDown() {

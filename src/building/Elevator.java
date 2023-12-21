@@ -140,7 +140,7 @@ public class Elevator {
 
     
     /**
-     * Gets if passengers to board on a certain floor
+     * Gets if passengers to board on a certain floor.
      *
      * @param floor the floor
      * @return true, if passengers
@@ -162,7 +162,7 @@ public class Elevator {
     }
     
     /**
-     * Tells next passengers to board on a certain floor
+     * Tells next passengers to board on a certain floor.
      *
      * @param floor the floor
      * @return the passengers
@@ -180,7 +180,7 @@ public class Elevator {
     }
     
     /**
-     * Offload passengers from elevator
+     * Offload passengers from elevator.
      *
      * @return the passengers
      */
@@ -382,7 +382,7 @@ public class Elevator {
 	}
 	
 	/**
-	 * Updates delay to elevator
+	 * Updates delay to elevator.
 	 *
 	 * @param boarding the boarding
 	 */
@@ -431,18 +431,39 @@ public class Elevator {
 		}
 	}
 	
+	/**
+	 * At floor.
+	 *
+	 * @return true, if successful
+	 */
 	boolean atFloor() {
 		return timeInState % ticksPerFloor == 0;
 	}
 	
+	/**
+	 * Can fit.
+	 *
+	 * @param passengers the passengers
+	 * @return true, if successful
+	 */
 	boolean canFit(Passengers passengers) {
 		return passengers.getNumPass() < capacity - this.passengers;
 	}
 	
+	/**
+	 * Checks for skipped.
+	 *
+	 * @return true, if successful
+	 */
 	boolean hasSkipped() {
 		return skipped;
 	}
 	
+	/**
+	 * Skipped.
+	 *
+	 * @param skipped the skipped
+	 */
 	void skipped(boolean skipped) {
 		this.skipped = skipped;
 	}
