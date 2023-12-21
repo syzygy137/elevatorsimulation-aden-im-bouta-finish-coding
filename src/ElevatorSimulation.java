@@ -249,7 +249,7 @@ public class ElevatorSimulation extends Application {
 		System.out.println("Ended sim");
 	}
 	
-	
+	 
 	/**
 	 * Toggles run off and on based on previous state
 	 */
@@ -367,7 +367,7 @@ public class ElevatorSimulation extends Application {
 	/**
 	 * Sets the grid pane constraints.
 	 */
-	public void setGridPaneConstraints() {
+	private void setGridPaneConstraints() {
 		for (int i = 0; i < MAX_X_CELLS; i ++) 
 			gp.getColumnConstraints().add(new ColumnConstraints(50));
 
