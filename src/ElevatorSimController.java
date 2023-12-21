@@ -271,6 +271,7 @@ public class ElevatorSimController {
 			building.closeLogs(stepCnt);
 			building.processPassengerData();
 			if (gui != null) gui.endSimulation();
+			
 		}
 	}
 	
