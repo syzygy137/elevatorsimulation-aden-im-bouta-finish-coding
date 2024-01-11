@@ -89,7 +89,6 @@ public class CallManager {
 	 * @return the passengers
 	 */
 	Passengers prioritizePassengerCalls(int floor) {
-		//TODO: Write this method based upon prioritization from STOP...
 		//if there are people on the floor
 		if (!floors[floor].isEmpty()) { 
 			if (onlyUpCalls(floor)) return floors[floor].peekUp(); 

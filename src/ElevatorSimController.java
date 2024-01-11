@@ -70,6 +70,7 @@ public class ElevatorSimController {
 	/**  The size of the queue to store Passengers at the start of the simulation. */
 	private final int PASSENGERS_QSIZE = 1000;	
 	
+	/** The building passengers index. */
 	private final int buildingPassengersIndex = 3;
 	
 	/**
@@ -95,7 +96,7 @@ public class ElevatorSimController {
 	}
 	
 	/**
-	 * Controller updates the gui every step by getting values from building
+	 * Controller updates the gui every step by getting values from building.
 	 */
 	private void controllerUpdatesTheGui() {
 		if (gui == null)
@@ -236,28 +237,18 @@ public class ElevatorSimController {
 	 * Written by Dan
 	 */
 	public void stepSim() {
- 		// DO NOT MOVE THIS - YOU MUST INCREMENT TIME FIRST!
 		stepCnt++;
-		// TODO: Write the rest of this method
-		// If simulation is not completed (not all passengers have been processed
-		// or elevator is not all in STOP state), then
-		// 		1) check passQ for appearance of new passengers at this time
-		//         - if there are, add all new passengers to building 
-		//         - let building know that all new passengers for this tick have
-		//           been added.
-		// 		2) update the elevator
-		// 		3) update the GUI 
-		//  else 
-		//    	1) update the GUI //controllerToGui
-		//		2) close the logs
-		//		3) process the passenger results
-		//		4) send endSimulation to the GUI to stop ticks.
 		if (!passQ.isEmpty() || !allInStopState()) {
 			checkPassQueue();
 			building.updateElevator(stepCnt);
 			controllerUpdatesTheGui();
+<<<<<<< HEAD
 		}
 		else {
+=======
+		} else {
+			System.out.println("Ended the simulation!!!");
+>>>>>>> de392a0720ab3b88a9541e7edf86d146b3a1c81e
 			controllerUpdatesTheGui();
 			building.closeLogs(stepCnt);
 			building.processPassengerData();
@@ -285,6 +276,13 @@ public class ElevatorSimController {
 		building.addPassengersToQueue(newPassengers);
 	}
 	
+	/**
+	 * Written by Dan
+	 * 
+	 * All in stop state.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean allInStopState() {
 		return (building.getElevatorState()[0] == 0 && building.getElevatorState()[4] == 0);
 	}
