@@ -165,7 +165,7 @@ public class ElevatorSimulation extends Application {
 	 */
 	private void setButtons() {
 		HBox buttonBox = new HBox();
-		Button run = new Button("Run");
+		Button run = new Button("Run/Stop");
 		Button step1 = new Button("Step");
 		Button step2 = new Button("Step: ");
 		TextField stepBox = new TextField("1");

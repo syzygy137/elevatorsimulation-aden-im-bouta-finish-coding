@@ -84,8 +84,6 @@ public class ElevatorSimController {
 	public ElevatorSimController(ElevatorSimulation gui) {
 		this.gui = gui;
 		fio = new MyFileIO();
-		// IMPORTANT: DO NOT CHANGE THE NEXT LINE!!! Update the config file itself
-		// (ElevatorSimConfig.csv) to change the configuration or test being run.
 		configSimulation(SIM_CONFIG);
 		NUM_FLOORS = numFloors;
 		logfile = testfile.replaceAll(".csv", ".log");
@@ -96,9 +94,6 @@ public class ElevatorSimController {
 		initializePassengerData(testfile);	
 	}
 	
-	//TODO: Write methods to update the GUI display
-	//      Needs to cover the Elevator state, Elevator passengers
-	//      and queues for each floor, as well as the current time
 	/**
 	 * Controller updates the gui every step by getting values from building
 	 */
@@ -235,9 +230,6 @@ public class ElevatorSimController {
 		building.enableLogging();
 	}
 	
-	// TODO: Write any other helper methods that you may need to access data from the building...
-	
-	
  	/**
 	 * Step sim. See the comments below for the functionality you
 	 * must implement......
@@ -266,7 +258,6 @@ public class ElevatorSimController {
 			controllerUpdatesTheGui();
 		}
 		else {
-			System.out.println("Ended the simulation!!!");
 			controllerUpdatesTheGui();
 			building.closeLogs(stepCnt);
 			building.processPassengerData();
