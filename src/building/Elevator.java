@@ -179,6 +179,12 @@ public class Elevator {
     	return passengers;
     }
     
+    void giveUp(Passengers passengers) {
+    	this.passengers -= passengers.getNumPass();
+    	boardedPassengers -= passengers.getNumPass();
+    	passByFloor[passengers.getDestFloor()].remove(passengers);
+    }
+    
     /**
      * Offload passengers from elevator.
      *

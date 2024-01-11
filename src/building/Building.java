@@ -243,6 +243,11 @@ public class Building {
 				skip = true;
 				break;
 			}
+			if (passengers.getTimeWillGiveUp() <= time) {
+				elevator.giveUp(passengers);
+				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+				break;
+			}
 			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 		}
 		if (skip && !elevator.hasSkipped()) {
@@ -441,6 +446,15 @@ public class Building {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void toggleLogging() {
+		if (LOGGER.getLevel() == Level.OFF) {
+			enableLogging();
+		} else {
+			LOGGER.setLevel(Level.OFF);
+		}
+			
 	}
 
 	/**
