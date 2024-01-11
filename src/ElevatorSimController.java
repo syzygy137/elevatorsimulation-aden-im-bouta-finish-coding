@@ -225,10 +225,10 @@ public class ElevatorSimController {
 	}
 
 	/**
-	 * Enable logging. A pass-through from the GUI to building
+	 * Enables or disables logging. A pass-through from the GUI to building
 	 */
 	public void enableLogging() {
-		building.enableLogging();
+		building.toggleLogging();
 	}
 	
  	/**
