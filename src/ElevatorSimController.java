@@ -242,13 +242,8 @@ public class ElevatorSimController {
 			checkPassQueue();
 			building.updateElevator(stepCnt);
 			controllerUpdatesTheGui();
-<<<<<<< HEAD
 		}
 		else {
-=======
-		} else {
-			System.out.println("Ended the simulation!!!");
->>>>>>> de392a0720ab3b88a9541e7edf86d146b3a1c81e
 			controllerUpdatesTheGui();
 			building.closeLogs(stepCnt);
 			building.processPassengerData();
