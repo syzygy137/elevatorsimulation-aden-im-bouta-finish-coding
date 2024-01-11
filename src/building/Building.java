@@ -238,14 +238,14 @@ public class Building {
 		Floor floor = floors[elevator.getCurrFloor()];
 		boolean skip = false;
 		while(elevator.passengersToBoard(floor)) {
-			Passengers passengers = elevator.board(floors[elevator.getCurrFloor()]);
-			if (passengers == null) {
-				skip = true;
+			Passengers passengers = elevator.getDirection() == UP ? floor.peekUp() : floor.peekDown();
+			if (passengers.getTimeWillGiveUp() >= time) {
+				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 				break;
 			}
-			if (passengers.getTimeWillGiveUp() <= time) {
-				elevator.giveUp(passengers);
-				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+			passengers = elevator.board(floor);
+			if (passengers == null) {
+				skip = true;
 				break;
 			}
 			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
@@ -448,6 +448,9 @@ public class Building {
 		}
 	}
 	
+	/**
+	 * Toggles logger on/off
+	 */
 	public void toggleLogging() {
 		if (LOGGER.getLevel() == Level.OFF) {
 			enableLogging();
