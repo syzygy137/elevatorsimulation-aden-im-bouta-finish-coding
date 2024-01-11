@@ -77,13 +77,20 @@ public class ElevatorSimulation extends Application {
 	private Text elevatorNum = new Text(0, 0, "0");
 	
 	// Building GUI stuff
-	private Line g0 = new Line(0, 0, 650, 0);
-	private Line g1 = new Line(0, 0, 650, 0);
-	private Line g2 = new Line(0, 0, 650, 0);
-	private Line g3 = new Line(0, 0, 650, 0);
-	private Line g4 = new Line(0, 0, 650, 0);
-	private Line g5 = new Line(0, 0, 650, 0);
-	private Line g6 = new Line(0, 0, 650, 0);
+	private Line g0 = new Line(0, 0, 900, 0);
+	private Line g1 = new Line(0, 0, 900, 0);
+	private Line g2 = new Line(0, 0, 900, 0);
+	private Line g3 = new Line(0, 0, 900, 0);
+	private Line g4 = new Line(0, 0, 900, 0);
+	private Line g5 = new Line(0, 0, 900, 0);
+	private Line g6 = new Line(0, 0, 900, 0);
+	private Text flr1 = new Text(50, 50, "1");
+	private Text flr2 = new Text(50, 50, "2");
+	private Text flr3 = new Text(50, 50, "3");
+	private Text flr4 = new Text(50, 50, "4");
+	private Text flr5 = new Text(50, 50, "5");
+	private Text flr6 = new Text(50, 50, "6");
+	
 	// Passengers
 	private HBox[] passPane = new HBox[12];
 	
@@ -199,6 +206,18 @@ public class ElevatorSimulation extends Application {
         gp.add(g4, 2, 4);
         gp.add(g5, 2, 2);
         gp.add(g6, 2, 0);
+        gp.add(flr1, 19, 11);
+        flr1.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(flr2, 19, 9);
+        flr2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(flr3, 19, 7);
+        flr3.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(flr4, 19, 5);
+        flr4.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(flr5, 19, 3);
+        flr5.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        gp.add(flr6, 19, 1);
+        flr6.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
 	}
 	
 	/**
