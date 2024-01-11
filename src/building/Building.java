@@ -460,7 +460,6 @@ public class Building {
 	 * @param time the time
 	 */
 	public void closeLogs(int time) {
-		System.out.println("Close logs called at time " + time);
 		if (LOGGER.getLevel() == Level.INFO) {
 			logEndSimulation(time);
 			fh.flush();
