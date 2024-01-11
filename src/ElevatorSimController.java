@@ -245,22 +245,7 @@ public class ElevatorSimController {
 	 * Written by Dan
 	 */
 	public void stepSim() {
- 		// DO NOT MOVE THIS - YOU MUST INCREMENT TIME FIRST!
 		stepCnt++;
-		// TODO: Write the rest of this method
-		// If simulation is not completed (not all passengers have been processed
-		// or elevator is not all in STOP state), then
-		// 		1) check passQ for appearance of new passengers at this time
-		//         - if there are, add all new passengers to building 
-		//         - let building know that all new passengers for this tick have
-		//           been added.
-		// 		2) update the elevator
-		// 		3) update the GUI 
-		//  else 
-		//    	1) update the GUI //controllerToGui
-		//		2) close the logs
-		//		3) process the passenger results
-		//		4) send endSimulation to the GUI to stop ticks.
 		if (!passQ.isEmpty() || !allInStopState()) {
 			checkPassQueue();
 			building.updateElevator(stepCnt);
