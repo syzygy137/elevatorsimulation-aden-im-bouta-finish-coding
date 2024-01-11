@@ -276,7 +276,8 @@ public class Passengers {
 	 */
 	@Override
 	public String toString() {
-		return("ID="+id+"   Time="+time+"   NumPass="+numPass+"   From="+(onFloor+1)+"   To="+(destFloor+1)+"   Polite="+polite+"   Wait="+waitTime);
+		return("ID="+id+"   Time="+time+"   NumPass="+numPass+"   From="+(onFloor+1)+
+				"   To="+(destFloor+1)+"   Polite="+polite+"   Wait="+waitTime);
 	}
 
 }
