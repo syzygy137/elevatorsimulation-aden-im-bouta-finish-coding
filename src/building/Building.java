@@ -239,9 +239,10 @@ public class Building {
 		boolean skip = false;
 		while(elevator.passengersToBoard(floor)) {
 			Passengers passengers = elevator.getDirection() == UP ? floor.peekUp() : floor.peekDown();
-			if (passengers.getTimeWillGiveUp() >= time) {
+			if (time > passengers.getTimeWillGiveUp()) {
 				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
-				break;
+				passengers = elevator.getDirection() == UP ? floor.removeUp() : floor.removeDown();
+				continue;
 			}
 			passengers = elevator.board(floor);
 			if (passengers == null) {
