@@ -86,7 +86,7 @@ public class Passengers {
 	/**
 	 * @return the polite
 	 */
-	boolean isPolite() {
+	public boolean isPolite() {
 		return polite;
 	}
 
