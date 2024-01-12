@@ -72,6 +72,7 @@ public class Passengers {
 		this.waitTime = waitTime;
 		if (destFloor > onFloor) direction = 1;
 		else direction = -1;
+		setTimeWillGiveUp(waitTime + time);
 	}
 	
 	// TODO: Write any required getters/setters for this class
