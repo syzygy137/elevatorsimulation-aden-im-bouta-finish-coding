@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import building.Elevator;
 import javafx.animation.Animation;
@@ -57,9 +56,12 @@ public class ElevatorSimulation extends Application {
 	
 	private BorderPane main;
 	private GridPane gp;
-	private final static Logger LOGGER = Logger.getLogger(ElevatorSimulation.class.getName());
+	//private final static Logger LOGGER = Logger.getLogger(ElevatorSimulation.class.getName());
+	private boolean currLog = false;
+	private Button logger = new Button("Logger");;
 	private Timeline t;
-	private String defualtLogStyle = "";
+	private String defualtLogStyle = logger.getStyle();
+	private String loggingLogStyle = "-fx-background-color: green; -fx-text-fill: white;";
 	private static final int MAX_X_CELLS = 20;
 	private static final int MAX_Y_CELLS = 13;
 	private Button tickTxt = new Button("Total Ticks: 0");
@@ -176,8 +178,8 @@ public class ElevatorSimulation extends Application {
 		Button step1 = new Button("Step");
 		Button step2 = new Button("Step: ");
 		TextField stepBox = new TextField("1");
-		Button logger = new Button("Logger");
-		logger.setOnAction(e -> controller.enableLogging());
+		//logger = new Button("Logger");
+		logger.setOnAction(e -> toggleLogger());
 		run.setOnAction(e -> toggleRun());
 		step1.setOnAction(e -> stepTick(1));
 		step2.setOnAction(e -> stepTick(Integer.parseInt(stepBox.getText())));
@@ -280,6 +282,18 @@ public class ElevatorSimulation extends Application {
 			t.setCycleCount(Animation.INDEFINITE);
 			t.play();
 		}
+	}
+	
+	private void toggleLogger() {
+		if (!currLog) {
+			// make color
+			logger.setStyle(loggingLogStyle);
+		} else {
+			// make normal
+			logger.setStyle(defualtLogStyle);
+		}
+		currLog = !currLog;
+		controller.enableLogging();
 	}
 	
 	/**
