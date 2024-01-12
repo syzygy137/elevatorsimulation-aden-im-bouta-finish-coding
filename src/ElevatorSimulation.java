@@ -284,6 +284,10 @@ public class ElevatorSimulation extends Application {
 		}
 	}
 	
+	
+	/**
+	 * Toggles log off and on based on previous state, changing colors and updating controller
+	 */
 	private void toggleLogger() {
 		if (!currLog) {
 			// make color
