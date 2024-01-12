@@ -242,6 +242,7 @@ public class Building {
 			if (time > passengers.getTimeWillGiveUp()) {
 				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 				passengers = elevator.getDirection() == UP ? floor.removeUp() : floor.removeDown();
+				elevator.skipped(false);
 				continue;
 			}
 			passengers = elevator.board(floor);
