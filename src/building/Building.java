@@ -274,7 +274,7 @@ public class Building {
 		elevator.updateDoor();
 		Floor floor = floors[elevator.getCurrFloor()];
 		Passengers curPassengers = elevator.getDirection() == UP ? floor.peekUp() : floor.peekDown();
-		if (curPassengers != null && !curPassengers.isPolite()) {
+		if (curPassengers != null && !curPassengers.isPolite() && !elevator.hasSkipped()) {
 			if (elevator.getDirection() == UP) floors[elevator.getCurrFloor()].peekUp().setPolite(true);
 			else floors[elevator.getCurrFloor()].peekDown().setPolite(true);
 			return Elevator.OPENDR;
