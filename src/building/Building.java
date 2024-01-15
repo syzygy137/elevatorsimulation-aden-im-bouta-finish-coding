@@ -272,9 +272,17 @@ public class Building {
 	 */
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
+		Floor floor = floors[elevator.getCurrFloor()];
+		Passengers curPassengers = elevator.getDirection() == UP ? floor.peekUp() : floor.peekDown();
+		if (!curPassengers.isPolite()) {
+			if (elevator.getDirection() == UP) floors[elevator.getCurrFloor()].peekUp().setPolite(true);
+			else floors[elevator.getCurrFloor()].peekDown().setPolite(true);
+			return Elevator.OPENDR;
+		}
 		if (elevator.getDoorState() == 0 && shouldOpenDrCloseDr(changeDirection())) {
 			return Elevator.OPENDR;
 		}
+		
 		if (elevator.getDoorState() == 0) {
 			callMgr.updateCallStatus();
 			if (elevator.isEmpty()) {
