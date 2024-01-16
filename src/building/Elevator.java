@@ -106,6 +106,7 @@ public class Elevator {
 	 * @param floorTicks the floor ticks
 	 * @param doorTicks the door ticks
 	 * @param passPerTick the pass per tick
+	 * Reviewed by Dan
 	 */
     @SuppressWarnings("unchecked")
 	public Elevator(int numFloors,int capacity, int floorTicks, int doorTicks, int passPerTick) {		
@@ -129,6 +130,7 @@ public class Elevator {
      * Gets if any passengers to get off.
      *
      * @return true, if passengers
+     * Reviewed by Dan
      */
     boolean passengersToGetOff() {
     	if (passByFloor[currFloor].isEmpty()) {
@@ -144,6 +146,7 @@ public class Elevator {
      *
      * @param floor the floor
      * @return true, if passengers
+     * Reviewed by Dan
      */
     boolean passengersToBoard(Floor floor) {
     	if (currState == MVTOFLR && currFloor == moveToFloor)
@@ -166,6 +169,7 @@ public class Elevator {
      *
      * @param floor the floor
      * @return the passengers
+     * Reviewed by Dan
      */
     Passengers board(Floor floor) {
     	Passengers passengers = (direction == Building.UP) ? floor.peekUp() : floor.peekDown();
@@ -185,6 +189,7 @@ public class Elevator {
      * Offload passengers from elevator.
      *
      * @return the passengers
+     * Reviewed by Dan
      */
     Passengers offload() {
     	Passengers passengers = passByFloor[currFloor].remove(0);
@@ -207,6 +212,7 @@ public class Elevator {
 	 * Gets the capacity.
 	 *
 	 * @return the capacity
+	 * 
 	 */
 	int getCapacity() {
 		return capacity;
@@ -372,6 +378,7 @@ public class Elevator {
 	 * Checks if delay is over.
 	 *
 	 * @return true, if it is
+	 * Reviewed by Dan
 	 */
 	boolean delayIsOver() {
 		if (passDelay <= timeInState) {
@@ -387,6 +394,7 @@ public class Elevator {
 	 * Updates delay to elevator.
 	 *
 	 * @param boarding the boarding
+	 * Reviewed by Dan
 	 */
 	void updateDelay(boolean boarding) {
 		passDelay = ((boarding ? boardedPassengers : offloadedPassengers) + passPerTick - 1) / passPerTick;

@@ -25,6 +25,7 @@ public class Floor {
 	 * Instantiates a new floor.
 	 *
 	 * @param qSize the q size
+	 * Reviewed by Dan
 	 */
 	public Floor(int qSize) {
 		down = new GenericQueue<Passengers>(qSize);
@@ -39,6 +40,7 @@ public class Floor {
 	 * Adds the passengers.
 	 *
 	 * @param passengers the passengers
+	 * Reviewed by Dan
 	 */
 	public void addPassengers(Passengers passengers) {
 		if (passengers.getDirection() == UP) {
@@ -53,6 +55,7 @@ public class Floor {
 	 *
 	 * @param getUp the get up
 	 * @return the array list
+	 * Reviewed by Dan
 	 */
 	public ArrayList<Integer> allPassengers(boolean getUp) {
 		GenericQueue<Passengers> queue;
