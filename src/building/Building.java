@@ -67,7 +67,7 @@ public class Building {
 	
 	/**
 	 * Instantiates a new building.
-	 *
+	 * Reviewed by Dan
 	 * @param numFloors the num floors
 	 * @param logfile the logfile
 	 */
@@ -94,7 +94,7 @@ public class Building {
 	
 	/**
 	 * Config elevator.
-	 *
+	 * Reviewed by Dan
 	 * @param numFloors the num floors
 	 * @param capacity the capacity
 	 * @param floorTicks the floor ticks
@@ -109,7 +109,7 @@ public class Building {
 	
 	/**
 	 * Adds the passengers to queue.
-	 *
+	 * Reviewed by Dan
 	 * @param passengerList the passenger list
 	 */
 	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
@@ -126,6 +126,7 @@ public class Building {
 	 * turns the logger OFF by default
 	 *
 	 * @param logfile the file to log information to
+	 * Reviewed by Dan
 	 */
 	void initializeBuildingLogger(String logfile) {
 		System.setProperty("java.util.logging.SimpleFormatter.format","%4$-7s %5$s%n");
@@ -146,6 +147,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateStop(int time) {
 		callMgr.updateCallStatus();
@@ -174,6 +176,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateMvToFlr(int time) {
 		elevator.updateFloor();
@@ -189,6 +192,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateOpenDr(int time) {
 		elevator.updateFloor();
@@ -211,6 +215,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateOffLd(int time) {
 		while (elevator.passengersToGetOff()) {
@@ -236,6 +241,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateBoard(int time) {
 		Floor floor = floors[elevator.getCurrFloor()];
@@ -277,6 +283,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateCloseDr(int time) {
 		elevator.updateDoor();
@@ -308,6 +315,7 @@ public class Building {
 	 *
 	 * @param time the time
 	 * @return the int
+	 * Reviewed by Dan
 	 */
 	private int currStateMv1Flr(int time) {
 		elevator.updateFloor();
@@ -325,6 +333,7 @@ public class Building {
 	 *
 	 * @param dirChange the dir change
 	 * @return true, if successful
+	 * Reviewed by Dan
 	 */
 	private boolean shouldOpenDrCloseDr(boolean dirChange) {
 		if (elevator.isEmpty() && elevator.passengersToBoard(floors[elevator.getCurrFloor()])) {
@@ -344,6 +353,7 @@ public class Building {
 	 * Change direction.
 	 *
 	 * @return true, if successful
+	 * Reviewed by Dan
 	 */
 	private boolean changeDirection() {
 		callMgr.updateCallStatus();
@@ -378,6 +388,7 @@ public class Building {
 	 * Elevator state or floor changed.
 	 *
 	 * @return true, if successful
+	 * Reviewed by Dan
 	 */
 	private boolean elevatorStateOrFloorChanged() {
 		return elevator.getPrevState() != elevator.getCurrState() || elevator.getPrevFloor() != elevator.getCurrFloor();
@@ -390,6 +401,7 @@ public class Building {
 	 *    any actions and calculate next state...
 	 *
 	 * @param time the time
+	 * Reviewed by Dan
 	 */
 	public void updateElevator(int time) {
 		if (elevatorStateOrFloorChanged())
@@ -412,6 +424,7 @@ public class Building {
 	 * Gives GUI the elevator.
 	 *
 	 * @return the elevator state
+	 * Reviewed by Dan
 	 */
 	public int[] getElevatorState() {
 		int[] state = new int[prevStateConstant + 1];
@@ -427,6 +440,7 @@ public class Building {
 	 * Gives GUI the waiting passengers.
 	 *
 	 * @return the waiting passengers
+	 * Reviewed by Dan
 	 */
 	public ArrayList<Integer>[] getWaitingPassengers() {
 		ArrayList<Integer>[] allPassengers = new ArrayList[floors.length * 2];
@@ -443,6 +457,7 @@ public class Building {
 	 * Process passenger data. Do NOT change this - it simply dumps the 
 	 * collected passenger data for successful arrivals and give ups. These are
 	 * assumed to be ArrayLists...
+	 * Reviewed by Dan
 	 */
 	public void processPassengerData() {
 		
@@ -468,6 +483,7 @@ public class Building {
 	
 	/**
 	 * Toggles logger on/off
+	 * Reviewed by Dan
 	 */
 	public void toggleLogging() {
 		if (LOGGER.getLevel() == Level.OFF) {
@@ -481,6 +497,7 @@ public class Building {
 	/**
 	 * Enable logging. Prints the initial configuration message.
 	 * For testing, logging must be enabled BEFORE the run starts.
+	 * Reviewed by Dan
 	 */
 	public void enableLogging() {
 		LOGGER.setLevel(Level.INFO);
@@ -493,6 +510,7 @@ public class Building {
 	 * Close logs, and pause the timeline in the GUI.
 	 *
 	 * @param time the time
+	 * Reviewed by Dan
 	 */
 	public void closeLogs(int time) {
 		if (LOGGER.getLevel() == Level.INFO) {
@@ -507,6 +525,7 @@ public class Building {
 	 *
 	 * @param state the state
 	 * @return the string
+	 * Reviewed by Dan
 	 */
 	private String printState(int state) {
 		String str = "";

@@ -18,7 +18,7 @@ public class ElevatorSimController {
 	// Owner by Sly
 	
 	/**  Constant to specify the configuration file for the simulation. */
-	private static final String SIM_CONFIG = "ElevatorSimConfig.csv";
+	private static final String SIM_CONFIG = "ElevatorSimConfig1.csv";
 	
 	/**  Constant to make the Passenger queue contents visible after initialization. */
 	private boolean PASSQ_DEBUG=false;
