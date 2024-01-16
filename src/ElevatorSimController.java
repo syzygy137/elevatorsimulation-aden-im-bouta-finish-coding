@@ -79,7 +79,7 @@ public class ElevatorSimController {
 	 * the elevator characteristics and also select the test
 	 * to run. Reads the passenger data for the test to run to
 	 * initialize the passenger queue in building...
-	 *
+	 * Reviewed by Henry
 	 * @param gui the gui
 	 */
 	protected ElevatorSimController(ElevatorSimulation gui) {
@@ -90,13 +90,13 @@ public class ElevatorSimController {
 		logfile = testfile.replaceAll(".csv", ".log");
 		building = new Building(NUM_FLOORS,logfile);
 		passQ = new GenericQueue<>(PASSENGERS_QSIZE);
-		//TODO: YOU still need to configure the elevator in the building here....
 		building.configElevator(numFloors, capacity, floorTicks, doorTicks, passPerTick);
 		initializePassengerData(testfile);	
 	}
 	
 	/**
 	 * Controller updates the gui every step by getting values from building.
+	 * Reviewed by Henry
 	 */
 	private void controllerUpdatesTheGui() {
 		if (gui == null)
@@ -113,7 +113,7 @@ public class ElevatorSimController {
 	/**
 	 * Config simulation. Reads the filename, and parses the
 	 * parameters.
-	 *
+	 * 
 	 * @param filename the filename
 	 */
 	private void configSimulation(String filename) {
@@ -134,7 +134,7 @@ public class ElevatorSimController {
 	 * Parses the elevator simulation config file to configure the simulation:
 	 * number of floors and elevators, the actual test file to run, and the
 	 * elevator characteristics.
-	 *
+	 * 
 	 * @param line the line
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
