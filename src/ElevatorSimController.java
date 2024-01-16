@@ -90,8 +90,9 @@ public class ElevatorSimController {
 		logfile = testfile.replaceAll(".csv", ".log");
 		building = new Building(NUM_FLOORS,logfile);
 		passQ = new GenericQueue<>(PASSENGERS_QSIZE);
+		initializePassengerData(testfile);
 		building.configElevator(numFloors, capacity, floorTicks, doorTicks, passPerTick);
-		initializePassengerData(testfile);	
+		
 	}
 	
 	/**
