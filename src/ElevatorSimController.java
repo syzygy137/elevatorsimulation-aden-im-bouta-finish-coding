@@ -106,7 +106,8 @@ public class ElevatorSimController {
 		// floor 6 at 1
 		elevatorY = NUM_FLOORS - (elevatorY + 1); // inverts
 		elevatorY = elevatorY * 2 + 1; //adjusts to scale
-		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, building.getElevatorState()[buildingPassengersIndex], building.getWaitingPassengers(), stepCnt);
+		gui.updateGUI(building.getElevatorState()[0], building.getElevatorState()[1], elevatorY, 
+				building.getElevatorState()[buildingPassengersIndex], building.getWaitingPassengers(), stepCnt);
 	}
 	
 	/**

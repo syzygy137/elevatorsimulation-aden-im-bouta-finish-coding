@@ -114,7 +114,8 @@ public class Building {
 	 */
 	public void addPassengersToQueue(ArrayList<Passengers> passengerList) {
 		for (Passengers passengers : passengerList) {
-			logCalls(passengers.getTime(), passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+			logCalls(passengers.getTime(), passengers.getNumPass(), 
+					passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
 			floors[passengers.getOnFloor()].addPassengers(passengers);
 		}
 	}
@@ -240,7 +241,8 @@ public class Building {
 		while(elevator.passengersToBoard(floor)) {
 			Passengers passengers = elevator.getDirection() == UP ? floor.peekUp() : floor.peekDown();
 			if (time > passengers.getTimeWillGiveUp()) {
-				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), 
+						passengers.getDirection(), passengers.getId());
 				passengers = elevator.getDirection() == UP ? floor.removeUp() : floor.removeDown();
 				elevator.skipped(false);
 				continue;
@@ -250,11 +252,13 @@ public class Building {
 				skip = true;
 				break;
 			}
-			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), 
+					passengers.getDirection(), passengers.getId());
 		}
 		if (skip && !elevator.hasSkipped()) {
 			Passengers passengers = (elevator.getDirection() == UP ? floor.peekUp() : floor.peekDown());
-			logSkip(time, passengers.getNumPass(), passengers.getOnFloor(), passengers.getDirection(), passengers.getId());
+			logSkip(time, passengers.getNumPass(), passengers.getOnFloor(),
+					passengers.getDirection(), passengers.getId());
 			elevator.skipped(true);
 		}
 		elevator.updateDelay(true);
