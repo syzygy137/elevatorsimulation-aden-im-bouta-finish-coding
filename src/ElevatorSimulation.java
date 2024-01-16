@@ -267,7 +267,6 @@ public class ElevatorSimulation extends Application {
 	 */
 	public void endSimulation() {
 		t.pause();
-		System.out.println("Ended sim");
 	}
 	
 	 
@@ -310,7 +309,8 @@ public class ElevatorSimulation extends Application {
 	 * @param callingPeople the current passenger groups waiting for an elevator
 	 * @param stepCnt the total amount of steps
 	 */
-	public void updateGUI(int currState, int currentDir, int elevatorY, int elevatorNum, ArrayList<Integer>[] callingPeople, int stepCnt) {
+	public void updateGUI(int currState, int currentDir, int elevatorY, 
+			int elevatorNum, ArrayList<Integer>[] callingPeople, int stepCnt) {
 		tickTxt.setText("Total ticks: " + stepCnt);
 		this.elevatorY = elevatorY;
 		this.elevatorNum.setText(Integer.toString(elevatorNum));
