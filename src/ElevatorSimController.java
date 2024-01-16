@@ -82,7 +82,7 @@ public class ElevatorSimController {
 	 *
 	 * @param gui the gui
 	 */
-	public ElevatorSimController(ElevatorSimulation gui) {
+	protected ElevatorSimController(ElevatorSimulation gui) {
 		this.gui = gui;
 		fio = new MyFileIO();
 		configSimulation(SIM_CONFIG);
@@ -228,7 +228,7 @@ public class ElevatorSimController {
 	/**
 	 * Enables or disables logging. A pass-through from the GUI to building
 	 */
-	public void enableLogging() {
+	protected void enableLogging() {
 		building.toggleLogging();
 	}
 	
@@ -236,8 +236,10 @@ public class ElevatorSimController {
 	 * Step sim. See the comments below for the functionality you
 	 * must implement......
 	 * Written by Dan
+	 * 
+	 * Sly's review: protected, no sysouts, looks good.
 	 */
-	public void stepSim() {
+	protected void stepSim() {
 		stepCnt++;
 		if (!passQ.isEmpty() || !allInStopState()) {
 			checkPassQueue();
@@ -255,6 +257,8 @@ public class ElevatorSimController {
 	/**
 	 * Check pass queue.
 	 * Written by Dan
+	 * 
+	 * Sly's review: No sysouts anymore, looks good.
 	 */
 	private void checkPassQueue() {
 		boolean end = false;
@@ -278,6 +282,8 @@ public class ElevatorSimController {
 	 * All in stop state.
 	 *
 	 * @return true, if successful
+	 * 
+	 * Sly's review: line is not too long, looks good.
 	 */
 	private boolean allInStopState() {
 		return (building.getElevatorState()[0] == 0 && building.getElevatorState()[4] == 0);

@@ -265,7 +265,7 @@ public class ElevatorSimulation extends Application {
 	/**
 	 * Stops the timeline.
 	 */
-	public void endSimulation() {
+	protected void endSimulation() {
 		t.pause();
 	}
 	
@@ -309,7 +309,7 @@ public class ElevatorSimulation extends Application {
 	 * @param callingPeople the current passenger groups waiting for an elevator
 	 * @param stepCnt the total amount of steps
 	 */
-	public void updateGUI(int currState, int currentDir, int elevatorY, 
+	protected void updateGUI(int currState, int currentDir, int elevatorY, 
 			int elevatorNum, ArrayList<Integer>[] callingPeople, int stepCnt) {
 		tickTxt.setText("Total ticks: " + stepCnt);
 		this.elevatorY = elevatorY;
