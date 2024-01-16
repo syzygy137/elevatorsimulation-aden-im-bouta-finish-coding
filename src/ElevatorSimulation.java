@@ -107,6 +107,9 @@ public class ElevatorSimulation extends Application {
 
 	/**
 	 * Start. Initializes all states
+	 * 
+	 * Reviewed by Henry
+	 * This is public but it has to be since its inherited from the Application superclass
 	 *
 	 * @param primaryStage the primary stage
 	 * @throws Exception the exception
@@ -137,6 +140,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Creates arrows to be used in updateGUI that represent a different elevator state.
+	 * Reviewed by Henry
 	 */
 	private void makeShapes() {
 		up = new Polygon();  //Up
@@ -171,6 +175,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Initializes the control Buttons at the bottom of the border pane. Done once during start
+	 * Reviewd by Henry
 	 */
 	private void setButtons() {
 		HBox buttonBox = new HBox();
@@ -189,6 +194,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Initializes the GridPane in start.
+	 * Reviewed by Henry
 	 */
 	private void setGripPane() {
 		gp = new GridPane();
@@ -224,7 +230,8 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * The main method. Allows command line to modulate the speed of the simulation.
-	 *
+	 * Reviewed by Henry
+	 * I dont think this can be protected/private
 	 * @param args the arguments
 	 */
 	public static void main (String[] args) {
@@ -244,7 +251,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Steps forward the controller the set number of ticks.
-	 *
+	 * Reviewed by Henry
 	 * @param numTicks the number of ticks stepped forward
 	 */
 	private void stepTick(int numTicks) {
@@ -256,6 +263,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Initializes the timeline to step the simulation based on millisPerTick.
+	 * Reviewed by Henry
 	 */
 	private void initTimeline() {
 		//TODO: Code this method
@@ -264,14 +272,16 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Stops the timeline.
+	 * Reviewed by Henry
 	 */
-	public void endSimulation() {
+	protected void endSimulation() {
 		t.pause();
 	}
 	
 	 
 	/**
 	 * Toggles run off and on based on previous state
+	 * Reviewed by Henry
 	 */
 	private void toggleRun() {
 		if (t.getStatus().equals(Status.RUNNING)) {
@@ -286,6 +296,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Toggles log off and on based on previous state, changing colors and updating controller
+	 * Reviewed by Henry
 	 */
 	private void toggleLogger() {
 		if (!currLog) {
@@ -301,6 +312,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Updates all parts of GUI every tick based on data passed through controller.
+	 * Reviewed by Henry
 	 *
 	 * @param currState the current state of the elevator
 	 * @param currentDir the current direction of the elevator
@@ -309,7 +321,7 @@ public class ElevatorSimulation extends Application {
 	 * @param callingPeople the current passenger groups waiting for an elevator
 	 * @param stepCnt the total amount of steps
 	 */
-	public void updateGUI(int currState, int currentDir, int elevatorY, 
+	protected void updateGUI(int currState, int currentDir, int elevatorY, 
 			int elevatorNum, ArrayList<Integer>[] callingPeople, int stepCnt) {
 		tickTxt.setText("Total ticks: " + stepCnt);
 		this.elevatorY = elevatorY;
@@ -338,7 +350,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Draws elevator state using symbols to represent state.
-	 *
+	 * Reviewed by Henry
 	 * @param currState the current state of the elevator
 	 * @param currentDir the current direction of the elevator
 	 */
@@ -373,7 +385,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Draws passenger groups with number representing amount in that group. Color and position represent calls going up or down.
-	 *
+	 * Reviewed by Henry
 	 * @param callingPeople the calling people waiting for an elevator
 	 */
 	private void drawPassengers(ArrayList<Integer>[] callingPeople) {
@@ -403,6 +415,7 @@ public class ElevatorSimulation extends Application {
 	
 	/**
 	 * Sets the grid pane constraints.
+	 * Reviewed by Henry
 	 */
 	private void setGridPaneConstraints() {
 		for (int i = 0; i < MAX_X_CELLS; i ++) 

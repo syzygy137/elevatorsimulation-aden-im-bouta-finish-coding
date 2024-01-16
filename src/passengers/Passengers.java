@@ -52,6 +52,8 @@ public class Passengers {
 
 	/**
 	 * Instantiates a new passengers.
+	 * Sly's review: Should be public and it is. Needed to remove the TODO but I did
+	 * that for him. Everything else looks good.
 	 *
 	 * @param time the time
 	 * @param numPass the number of people in this Passenger
@@ -61,9 +63,6 @@ public class Passengers {
 	 * @param waitTime the amount of time that the passenger will wait before giving up
 	 */
 	public Passengers(int time, int numPass, int on, int dest, boolean polite, int waitTime) {
-	// TODO: Write the constructor for this class
-	//       Remember to appropriately adjust the onFloor and destFloor to account  
-	//       to convert from American to European numbering...
 		this.time = time;
 		this.numPass = numPass;
 		onFloor = on - 1;
@@ -74,8 +73,6 @@ public class Passengers {
 		else direction = -1;
 		setTimeWillGiveUp(waitTime + time);
 	}
-	
-	// TODO: Write any required getters/setters for this class
 	
 	/**  Constant for representing direction. */
 	private static final int UP = 1;

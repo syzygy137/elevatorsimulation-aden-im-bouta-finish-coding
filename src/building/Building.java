@@ -220,6 +220,8 @@ public class Building {
 	private int currStateOffLd(int time) {
 		while (elevator.passengersToGetOff()) {
 			Passengers passengers = elevator.offload();
+			passengers.setTimeArrived(time);
+			passSuccess.add(passengers);
 			logArrival(time, passengers.getNumPass(), passengers.getDestFloor(), passengers.getId());
 		}
 		elevator.updateDelay(false);
@@ -249,6 +251,7 @@ public class Building {
 			if (time > passengers.getTimeWillGiveUp()) {
 				logGiveUp(time, passengers.getNumPass(), passengers.getOnFloor(), 
 						passengers.getDirection(), passengers.getId());
+				gaveUp.add(passengers);
 				passengers = elevator.getDirection() == UP ? floor.removeUp() : floor.removeDown();
 				elevator.skipped(false);
 				continue;
@@ -258,6 +261,7 @@ public class Building {
 				skip = true;
 				break;
 			}
+			passengers.setBoardTime(time);
 			logBoard(time, passengers.getNumPass(), passengers.getOnFloor(), 
 					passengers.getDirection(), passengers.getId());
 		}

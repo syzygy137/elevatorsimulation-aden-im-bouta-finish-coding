@@ -42,7 +42,7 @@ public class Floor {
 	 * @param passengers the passengers
 	 * Reviewed by Dan
 	 */
-	public void addPassengers(Passengers passengers) {
+	void addPassengers(Passengers passengers) {
 		if (passengers.getDirection() == UP) {
 			up.add(passengers);
 		} else {
@@ -57,7 +57,7 @@ public class Floor {
 	 * @return the array list
 	 * Reviewed by Dan
 	 */
-	public ArrayList<Integer> allPassengers(boolean getUp) {
+	ArrayList<Integer> allPassengers(boolean getUp) {
 		GenericQueue<Passengers> queue;
 		if (getUp) {
 			queue = up;
@@ -83,7 +83,7 @@ public class Floor {
 	 *
 	 * @return the passengers
 	 */
-	public Passengers peekUp() {
+	Passengers peekUp() {
 		return up.peek();
 	}
 	
@@ -92,7 +92,7 @@ public class Floor {
 	 *
 	 * @return the passengers
 	 */
-	public Passengers peekDown() {
+	Passengers peekDown() {
 		return down.peek();
 	}
 	
@@ -101,7 +101,7 @@ public class Floor {
 	 *
 	 * @return the passengers
 	 */
-	public Passengers removeUp() {
+	Passengers removeUp() {
 		return up.remove();
 	}
 	
@@ -110,7 +110,7 @@ public class Floor {
 	 *
 	 * @return the passengers
 	 */
-	public Passengers removeDown() {
+	Passengers removeDown() {
 		return down.remove();
 	}
 	
@@ -120,7 +120,7 @@ public class Floor {
 	 *
 	 * @return true, if is empty
 	 */
-	public boolean isEmpty() {
+	boolean isEmpty() {
 		return up.peek() == null && down.peek() == null;
 	}
 	/**

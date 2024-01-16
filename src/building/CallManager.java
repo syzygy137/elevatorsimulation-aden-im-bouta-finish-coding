@@ -34,23 +34,21 @@ public class CallManager {
 	/** The down call pending - true if any down calls exit */
 	private boolean downCallPending;
 	
-	//TODO: Add any additional fields here..
-	
 	/**
 	 * Instantiates a new call manager.
+	 * Sly's review: Removed TODOs for him. Method correctly updates fields
+	 * Changed to protected
 	 *
 	 * @param floors the floors
 	 * @param numFloors the num floors
 	 */
-	public CallManager(Floor[] floors, int numFloors) {
+	protected CallManager(Floor[] floors, int numFloors) {
 		this.floors = floors;
 		NUM_FLOORS = numFloors;
 		upCalls = new boolean[NUM_FLOORS];
 		downCalls = new boolean[NUM_FLOORS];
 		upCallPending = false;
 		downCallPending = false;
-		
-		//TODO: Initialize any added fields here
 	}
 	
 	/**
@@ -68,9 +66,10 @@ public class CallManager {
 	 * more efficient, could only update when there has been a change to the floor queues -
 	 * either passengers being added or being removed. The alternative is to dynamically
 	 * recalculate the values of specific fields when needed.
+	 * 
+	 * Sly's review: removed TODO. clean and easy to follow. Changed to protected
 	 */
-	void updateCallStatus() {
-		//TODO: Write this method if you choose to implement it...
+	protected void updateCallStatus() {
 		for (int i = 0; i < NUM_FLOORS; i++) {
 			upCalls[i] = (floors[i].peekUp() != null);
 			downCalls[i] = (floors[i].peekDown() != null);
@@ -87,6 +86,8 @@ public class CallManager {
 	 *
 	 * @param floor the floor
 	 * @return the passengers
+	 * 
+	 * Sly's review: No TODOs finally. good comments.
 	 */
 	Passengers prioritizePassengerCalls(int floor) {
 		//if there are people on the floor
@@ -110,20 +111,13 @@ public class CallManager {
 		}
 	}
 
-	//TODO: Write any additional methods here. Things that you might consider:
-	//      1. pending calls - are there any? only up? only down?
-	//      2. is there a call on the current floor in the current direction
-	//      3. How many up calls are pending? how many down calls are pending? 
-	//      4. How many calls are pending in the direction that the elevator is going
-	//      5. Should the elevator change direction?
-	//
-	//      These are an example - you may find you don't need some of these, or you may need more...
-	
 	/**
 	 * Checks if there is only up calls
 	 *
 	 * @param floor the floor
 	 * @return true, if successful
+	 * 
+	 * sly's review: long line but meets style.
 	 */
 	private boolean onlyUpCalls(int floor) {
 		return (floors[floor].peekUp() != null && floors[floor].peekDown() == null);
@@ -134,6 +128,8 @@ public class CallManager {
 	 *
 	 * @param floor the floor
 	 * @return true, if successful
+	 * 
+	 * sly's review: long line but meets style.
 	 */
 	private boolean onlyDownCalls(int floor) {
 		return (floors[floor].peekUp() == null && floors[floor].peekDown() != null);
@@ -145,6 +141,8 @@ public class CallManager {
 	 *
 	 * @param floor the floor
 	 * @return the int
+	 * 
+	 * sly's review: Don't love single line if statement but acceptable
 	 */
 	private int numUpCallsAboveFloor(int floor) {
 		int count = 0;
@@ -162,6 +160,8 @@ public class CallManager {
 	 *
 	 * @param floor the floor
 	 * @return the int
+	 * 
+	 * sly's review: Don't love single line if statement but acceptable
 	 */
 	private int numDownCallsBelowFloor(int floor) {
 		int count = 0;
@@ -179,8 +179,10 @@ public class CallManager {
 	 *
 	 * @param floor the floor
 	 * @return true, if successful
+	 * 
+	 * sly's review: looks good, changed to protected
 	 */
-	public boolean callsAboveFloor(int floor) {
+	protected boolean callsAboveFloor(int floor) {
 		for (int i = floor + 1; i < NUM_FLOORS; i++) {
 			if (upCalls[i] || downCalls[i]) {
 				return true;
@@ -194,8 +196,10 @@ public class CallManager {
 	 *
 	 * @param floor the floor
 	 * @return true, if successful
+	 * 
+	 * sly's review: looks good, changed to protected
 	 */
-	public boolean callsBelowFloor(int floor) {
+	protected boolean callsBelowFloor(int floor) {
 		for (int i = floor - 1; i >= 0; i--) {
 			if (upCalls[i] || downCalls[i]) {
 				return true;
@@ -209,6 +213,8 @@ public class CallManager {
 	 * Num up calls.
 	 *
 	 * @return the int
+	 * 
+	 * sly's review: looks good
 	 */
 	private int numUpCalls() {
 		int count = 0;
@@ -225,6 +231,8 @@ public class CallManager {
 	 * Num down calls.
 	 *
 	 * @return the int
+	 * 
+	 * sly's review: looks good
 	 */
 	private int numDownCalls() {
 		int count = 0;
@@ -242,6 +250,8 @@ public class CallManager {
 	 *
 	 * @param goingUp the going up
 	 * @return the passengers
+	 * 
+	 * sly's review: looks good.
 	 */
 	private Passengers findFirstFloor(boolean goingUp) {
 		if (goingUp) {
@@ -262,6 +272,8 @@ public class CallManager {
 	 *
 	 * @param curFloor the cur floor
 	 * @return the passengers
+	 * 
+	 * sly's review: looks good.
 	 */
 	private Passengers findClosestFloor(int curFloor) {
 		int lowestUpCall = 0, highestDownCall = 0;
